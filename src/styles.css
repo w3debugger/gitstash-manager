@@ -14,17 +14,120 @@ body {
 .app-container {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
 
-/* Sidebar Styles */
-.sidebar {
-    width: 300px;
+/* Panel Styles */
+.sidebar-panel {
+    position: relative;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     display: flex;
     flex-direction: column;
     border-right: 1px solid rgba(255,255,255,0.1);
+    overflow: visible;
+    min-width: 200px;
+    max-width: 600px;
+    contain: layout style;
+}
+
+.files-sidebar-panel {
+    position: relative;
+    background: #f8f9fa;
+    border-right: 1px solid #e0e6ed;
+    overflow: visible;
+    min-width: 0;
+    max-width: 500px;
+    contain: layout style;
+}
+
+.main-content-panel {
+    flex: 1;
     overflow: hidden;
+    background: white;
+    contain: layout style;
+}
+
+/* Resize Handle Styles */
+.resize-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    background: rgba(52, 152, 219, 0.8);
+    cursor: col-resize;
+    z-index: 10000;
+    transition: background-color 0.1s ease;
+    border-radius: 3px;
+    pointer-events: all;
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 1px;
+}
+
+.resize-handle:hover {
+    background-color: #3498db;
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+.resize-handle:hover::before {
+    background: rgba(255, 255, 255, 1);
+}
+
+.resize-handle.resize-handle-right {
+    right: -5px;
+}
+
+.resize-handle:active {
+    background-color: #2980b9;
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
+}
+
+/* Resize active state */
+body.resizing {
+    cursor: col-resize;
+    user-select: none;
+}
+
+/* Disable transitions during resize for better performance */
+body.resizing * {
+    transition: none !important;
+}
+
+/* Allow text wrapping during resize for better fluidity */
+body.resizing .file-name,
+body.resizing .repo-path,
+body.resizing .stash-sidebar-message {
+    white-space: normal !important;
+    text-overflow: unset !important;
+}
+
+/* Keep only the resize handle transition */
+body.resizing .resize-handle {
+    transition: background-color 0.05s ease !important;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 100%;
+    background: transparent;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border-right: none;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    will-change: auto;
 }
 
 .sidebar-header {
@@ -141,6 +244,7 @@ body {
 .repo-info {
     flex: 1;
     min-width: 0;
+    overflow: hidden;
 }
 
 .repo-name {
@@ -158,6 +262,9 @@ body {
     opacity: 0.7;
     word-break: break-all;
     color: rgba(255,255,255,0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .repo-actions {
@@ -311,6 +418,7 @@ body {
     padding: 10px 12px;
     cursor: pointer;
     min-width: 0;
+    overflow: hidden;
 }
 
 .stash-actions {
@@ -390,6 +498,7 @@ body {
     -webkit-box-orient: vertical;
     overflow: hidden;
     color: rgba(255,255,255,0.9);
+    word-break: break-word;
 }
 
 .stash-sidebar-date {
@@ -414,12 +523,15 @@ body {
 
 /* Files Sidebar Styles */
 .files-sidebar {
-    width: 350px;
-    background: #f8f9fa;
-    border-right: 1px solid #e1e8ed;
+    width: 100%;
+    background: transparent;
+    border-right: none;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    position: relative;
+    z-index: 1;
+    will-change: auto;
 }
 
 
@@ -474,6 +586,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
 }
 
 .file-item:hover {
@@ -493,6 +609,21 @@ body {
     align-items: center;
     gap: 8px;
     margin-bottom: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.file-icon {
+    flex-shrink: 0;
+    font-size: 1em;
+    min-width: 24px;
+    text-align: center;
+}
+
+.file-info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .file-status-icon {
@@ -504,7 +635,11 @@ body {
     color: #2c3e50;
     font-size: 0.9em;
     flex: 1;
+    min-width: 0;
     word-break: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .file-status {
@@ -560,10 +695,12 @@ body {
 
 /* Main Content Styles */
 .main-content {
-    flex: 1;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    will-change: auto;
 }
 
 .repo-header {
@@ -765,6 +902,8 @@ body {
     margin-bottom: 8px;
     line-height: 1.4;
     font-size: 0.95em;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .stash-date {
@@ -1021,24 +1160,28 @@ body {
     background: #a8a8a8;
 }
 
-/* Responsive Design */
+/* Responsive Design - Updated for dynamic resizing */
 @media (max-width: 1400px) {
-    .sidebar {
-        width: 280px;
+    .sidebar-panel {
+        min-width: 180px;
+        max-width: 400px;
     }
     
-    .files-sidebar {
-        width: 250px;
+    .files-sidebar-panel {
+        min-width: 0;
+        max-width: 350px;
     }
 }
 
 @media (max-width: 1200px) {
-    .sidebar {
-        width: 250px;
+    .sidebar-panel {
+        min-width: 160px;
+        max-width: 350px;
     }
     
-    .files-sidebar {
-        width: 220px;
+    .files-sidebar-panel {
+        min-width: 0;
+        max-width: 300px;
     }
 }
 
@@ -1047,14 +1190,18 @@ body {
         flex-direction: column;
     }
     
-    .sidebar {
-        width: 100%;
+    .sidebar-panel {
+        width: 100% !important;
         height: 150px;
+        min-width: auto;
+        max-width: none;
     }
     
-    .files-sidebar {
-        width: 100%;
+    .files-sidebar-panel {
+        width: 100% !important;
         height: 150px;
+        min-width: auto;
+        max-width: none;
     }
     
     .repositories-section {

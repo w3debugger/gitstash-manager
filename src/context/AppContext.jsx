@@ -13,6 +13,8 @@ const ACTIONS = {
   SET_FILES: 'SET_FILES',
   SHOW_NOTIFICATION: 'SHOW_NOTIFICATION',
   CLEAR_NOTIFICATION: 'CLEAR_NOTIFICATION',
+  SET_SIDEBAR_WIDTH: 'SET_SIDEBAR_WIDTH',
+  SET_FILES_SIDEBAR_WIDTH: 'SET_FILES_SIDEBAR_WIDTH',
 }
 
 // Initial state
@@ -25,6 +27,8 @@ const initialState = {
   selectedFile: null,
   files: [],
   notification: null,
+  sidebarWidth: 300, // Default sidebar width
+  filesSidebarWidth: 280, // Default files sidebar width
 }
 
 // Reducer
@@ -68,6 +72,12 @@ function appReducer(state, action) {
     
     case ACTIONS.CLEAR_NOTIFICATION:
       return { ...state, notification: null }
+    
+    case ACTIONS.SET_SIDEBAR_WIDTH:
+      return { ...state, sidebarWidth: action.payload }
+    
+    case ACTIONS.SET_FILES_SIDEBAR_WIDTH:
+      return { ...state, filesSidebarWidth: action.payload }
     
     default:
       return state
@@ -134,6 +144,14 @@ export function AppProvider({ children }) {
     dispatch({ type: ACTIONS.SET_FILES, payload: files })
   }
 
+  const setSidebarWidth = (width) => {
+    dispatch({ type: ACTIONS.SET_SIDEBAR_WIDTH, payload: width })
+  }
+
+  const setFilesSidebarWidth = (width) => {
+    dispatch({ type: ACTIONS.SET_FILES_SIDEBAR_WIDTH, payload: width })
+  }
+
   const value = {
     ...state,
     showNotification,
@@ -145,6 +163,8 @@ export function AppProvider({ children }) {
     setSelectedStash,
     setSelectedFile,
     setFiles,
+    setSidebarWidth,
+    setFilesSidebarWidth,
   }
 
   return (

@@ -13,7 +13,8 @@ A modern Electron desktop application for managing git stashes across multiple r
 - **⚡ Quick Actions** - Apply or drop stashes with single-click actions
 - **📁 File-Level Preview** - Browse changed files with status indicators before applying
 - **🔍 Diff Viewer** - View detailed code changes with syntax highlighting
-- **💾 Persistent Storage** - Remembers your repositories between sessions
+- **📏 Resizable Columns** - Drag to resize sidebar and files panel for optimal workflow
+- **💾 Persistent Storage** - Remembers your repositories and panel sizes between sessions
 - **🎨 Modern UI** - Clean, responsive interface built with React 19
 
 ## 🚀 Quick Start
@@ -99,6 +100,12 @@ gitstash-manager/
 - **Browse Files**: Select a stash to see changed files in the files sidebar
 - **View Diff**: Click any file to see the detailed code changes
 
+### Customizing Layout
+- **Resize Sidebar**: Drag the blue handle on the right edge of the repository panel (200px - 600px)
+- **Resize Files Panel**: Drag the blue handle on the right edge of the files panel (200px - 500px)
+- **Responsive Content**: All text and file lists automatically adapt to panel sizes
+- **Persistent Sizes**: Your preferred panel widths are remembered between sessions
+
 ### Keyboard Shortcuts
 - `Cmd/Ctrl + N` - Add new repository
 - `Cmd/Ctrl + R` - Refresh all repositories
@@ -131,17 +138,22 @@ const {
   selectedRepository,     // Currently selected repository
   selectedStash,         // Currently selected stash index
   files,                 // Files in the selected stash
+  sidebarWidth,          // Current sidebar width (resizable)
+  filesSidebarWidth,     // Current files sidebar width (resizable)
+  setSidebarWidth,       // Function to update sidebar width
+  setFilesSidebarWidth,  // Function to update files sidebar width
   showNotification       // Function to show toast messages
 } = useApp()
 ```
 
 ## 🎨 UI Components
 
-- **Sidebar**: Repository management and stash navigation
-- **FilesSidebar**: File browser with change status indicators
-- **MainContent**: Dynamic content area with welcome screen and diff viewer
+- **Resizable Sidebar**: Repository management and stash navigation with drag-to-resize functionality
+- **Resizable FilesSidebar**: File browser with change status indicators and flexible width
+- **MainContent**: Dynamic content area with welcome screen and diff viewer that adapts to available space
 - **Notification**: Toast messages for user feedback
 - **WelcomeScreen**: Getting started guide for new users
+- **Resize Handles**: Interactive blue handles for intuitive column resizing
 
 ## 🤝 Contributing
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { useApp } from '../context/AppContext'
 import Sidebar from './Sidebar'
 import FilesSidebar from './FilesSidebar'
@@ -12,8 +12,69 @@ function GitStashElectionApp() {
     selectedRepository,
     selectedStash,
     setFiles,
-    setSelectedFile
+    setSelectedFile,
+    sidebarWidth,
+    setSidebarWidth,
+    filesSidebarWidth,
+    setFilesSidebarWidth
   } = useApp()
+
+  // Resize state and refs
+  const [isResizing, setIsResizing] = useState(null)
+  const sidebarRef = useRef(null)
+  const filesSidebarRef = useRef(null)
+  const startX = useRef(0)
+  const startWidth = useRef(0)
+  const isResizingRef = useRef(null)
+
+  // Update resize ref when state changes
+  useEffect(() => {
+    isResizingRef.current = isResizing
+  }, [isResizing])
+
+  // Handle resize move
+  const handleResizeMove = useRef((e) => {
+    const currentResizing = isResizingRef.current
+    if (!currentResizing) return
+
+    const deltaX = e.clientX - startX.current
+    
+    if (currentResizing === 'sidebar') {
+      const newWidth = Math.max(200, Math.min(600, startWidth.current + deltaX))
+      setSidebarWidth(newWidth)
+    } else if (currentResizing === 'filesSidebar') {
+      const newWidth = Math.max(200, Math.min(500, startWidth.current + deltaX))
+      setFilesSidebarWidth(newWidth)
+    }
+  }).current
+
+  // Handle resize end
+  const handleResizeEnd = useRef(() => {
+    setIsResizing(null)
+    isResizingRef.current = null
+    document.body.classList.remove('resizing')
+    document.removeEventListener('mousemove', handleResizeMove)
+    document.removeEventListener('mouseup', handleResizeEnd)
+  }).current
+
+  // Handle resize start
+  const handleResizeStart = (panel, e) => {
+    setIsResizing(panel)
+    isResizingRef.current = panel
+    startX.current = e.clientX
+    
+    if (panel === 'sidebar') {
+      startWidth.current = sidebarWidth
+    } else if (panel === 'filesSidebar') {
+      startWidth.current = filesSidebarWidth
+    }
+    
+    e.preventDefault()
+    e.stopPropagation()
+    document.body.classList.add('resizing')
+    document.addEventListener('mousemove', handleResizeMove)
+    document.addEventListener('mouseup', handleResizeEnd)
+  }
 
   useEffect(() => {
     loadRepositories()
@@ -78,9 +139,38 @@ function GitStashElectionApp() {
 
   return (
     <div className="app-container">
-      <Sidebar />
-      <FilesSidebar />
-      <MainContent />
+      <div 
+        ref={sidebarRef}
+        className="sidebar-panel"
+        style={{ width: `${sidebarWidth}px` }}
+      >
+        <Sidebar />
+        <div 
+          className="resize-handle resize-handle-right"
+          onMouseDown={(e) => handleResizeStart('sidebar', e)}
+          title="Drag to resize sidebar"
+        />
+      </div>
+      
+      <div 
+        ref={filesSidebarRef}
+        className="files-sidebar-panel"
+        style={{ width: selectedRepository && selectedStash !== null ? `${filesSidebarWidth}px` : '0px' }}
+      >
+        <FilesSidebar />
+        {selectedRepository && selectedStash !== null && (
+          <div 
+            className="resize-handle resize-handle-right"
+            onMouseDown={(e) => handleResizeStart('filesSidebar', e)}
+            title="Drag to resize files panel"
+          />
+        )}
+      </div>
+      
+      <div className="main-content-panel">
+        <MainContent />
+      </div>
+      
       <Notification />
     </div>
   )

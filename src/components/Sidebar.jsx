@@ -17,13 +17,6 @@ function Sidebar() {
     <div className="sidebar">
       <div className="sidebar-header">
         <h2>🗳️ Git Stash Election</h2>
-        <button 
-          className="add-repo-btn" 
-          title="Add Repository"
-          onClick={addRepository}
-        >
-          ➕
-        </button>
       </div>
       
       <div className="repositories-section">
