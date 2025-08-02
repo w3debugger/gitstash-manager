@@ -54,8 +54,12 @@ function createWindow() {
     icon: path.join(__dirname, 'assets', 'icon.png')
   });
 
-  // Load the app
-  mainWindow.loadFile('renderer/index.html');
+  // Load the app - use React dev server in development, built files in production
+  if (process.argv.includes('--dev')) {
+    mainWindow.loadURL('http://localhost:5173');
+  } else {
+    mainWindow.loadFile('dist-react/index.html');
+  }
 
   // Open DevTools in development
   if (process.argv.includes('--dev')) {

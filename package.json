@@ -3,20 +3,31 @@
   "version": "1.0.0",
   "description": "An Electron desktop app for viewing and managing git stashes across multiple repositories",
   "main": "main.js",
+  "homepage": "./",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --dev",
-    "debug": "electron . --debug",
-    "build": "electron-builder",
-    "dist": "electron-builder --publish=never"
+    "dev": "concurrently \"npm run dev:react\" \"wait-on http://localhost:5173 && electron . --dev\"",
+    "dev:react": "vite",
+    "build:react": "vite build",
+    "build": "npm run build:react && electron-builder",
+    "dist": "npm run build:react && electron-builder --publish=never",
+    "debug": "electron . --debug"
   },
   "dependencies": {
     "simple-git": "^3.19.1",
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
     "electron": "^28.0.0",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.6.4",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8",
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0"
   },
   "build": {
     "appId": "com.gitstash.manager",
@@ -27,7 +38,7 @@
     "files": [
       "main.js",
       "preload.js",
-      "renderer/**/*",
+      "dist-react/**/*",
       "node_modules/**/*"
     ],
     "mac": {

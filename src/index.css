@@ -1,0 +1,10 @@
+/* Import existing styles from renderer-backup/styles.css */
+@import url('../renderer-backup/styles.css');
+
+/* Additional React-specific styles if needed */
+#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}

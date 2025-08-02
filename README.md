@@ -1,130 +1,167 @@
-# Git Stash Election 🗳️
+# 🗳️ Git Stash Election
 
-A **desktop Electron app** for managing git stashes across multiple repositories with an election-style interface! Like Slack for your git stashes.
+A modern Electron desktop application for managing git stashes across multiple repositories with an intuitive, election-style interface built with React 19.
 
-## Features
+![Git Stash Election](https://img.shields.io/badge/Electron-App-47848F?style=for-the-badge&logo=electron)
+![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react)
+![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=for-the-badge)
 
-- 📂 **Multi-Repository Management**: Add and manage multiple git repositories
-- 🏆 **Election-Style Stash Browser**: See all your stashes as voting candidates
-- 📊 **Real-time Repository Status**: Live git status for each repository
-- 🔍 **Stash Preview**: Click any stash to view its full diff content
-- ✅ **Apply Stashes**: Apply selected stashes to your working directory
-- 🗑️ **Drop Stashes**: Safely remove stashes you no longer need
-- 💻 **Native Desktop App**: Built with Electron for macOS, Windows, and Linux
-- 🎨 **Slack-like Interface**: Clean sidebar with repository list and main content area
+## ✨ Features
 
-## Installation
+- **🏆 Election-Style Interface** - Vote on your favorite stashes with an intuitive browsing experience
+- **📂 Multi-Repository Support** - Manage stashes across all your git repositories from one place
+- **⚡ Quick Actions** - Apply or drop stashes with single-click actions
+- **📁 File-Level Preview** - Browse changed files with status indicators before applying
+- **🔍 Diff Viewer** - View detailed code changes with syntax highlighting
+- **💾 Persistent Storage** - Remembers your repositories between sessions
+- **🎨 Modern UI** - Clean, responsive interface built with React 19
 
-1. Clone the repository:
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 16+ 
+- Git installed and accessible from command line
+
+### Installation & Development
+
 ```bash
-git clone <repo-url>
-cd git-stash-election
-```
+# Clone the repository
+git clone <your-repo-url>
+cd gitstash-manager
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
-```
 
-3. Start the desktop app:
-```bash
+# Start development mode (React + Electron with hot reload)
+npm run dev
+
+# Or start production mode
 npm start
 ```
 
-For development with hot reload:
+### Building for Distribution
+
 ```bash
-npm run dev
+# Build React app and create distributable
+npm run build
+npm run dist
+
+# Or build React app only
+npm run build:react
 ```
 
-## Usage
+## 🛠️ Architecture
 
-### Getting Started
-1. **Launch the App**: Run `npm start` to open the desktop application
-2. **Add Repositories**: Click the ➕ button or use `Cmd/Ctrl+N` to add git repositories
-3. **Select Repository**: Click on any repository in the sidebar to view its stashes
-4. **Browse Stashes**: See all stashes displayed as election candidates
+This application uses a modern tech stack:
+
+- **Frontend**: React 19.1 with Hooks and Context API
+- **Build Tool**: Vite for fast development and optimized builds
+- **Desktop**: Electron 28 for cross-platform desktop functionality
+- **Git Operations**: simple-git for reliable git command execution
+- **Storage**: electron-store for persistent repository management
+
+### Project Structure
+
+```
+gitstash-manager/
+├── src/                          # React application source
+│   ├── components/              # React components
+│   │   ├── GitStashElectionApp.jsx    # Main app component
+│   │   ├── Sidebar.jsx               # Repository sidebar
+│   │   ├── RepositoryTree.jsx        # Repository tree view
+│   │   ├── StashItem.jsx             # Individual stash component
+│   │   ├── FilesSidebar.jsx          # Files browser
+│   │   ├── StashDetailsView.jsx      # Code diff viewer
+│   │   └── ...                       # Other components
+│   ├── context/                 # React Context for state management
+│   │   └── AppContext.jsx           # Centralized app state
+│   ├── main.jsx                 # React entry point
+│   └── index.css               # Global styles
+├── main.js                      # Electron main process
+├── preload.js                   # Electron preload script
+├── index.html                   # HTML entry point
+├── vite.config.js              # Vite configuration
+└── package.json                # Dependencies and scripts
+```
+
+## 🎯 Usage
+
+### Adding Repositories
+1. Click the **➕** button in the sidebar
+2. Select a folder containing a git repository
+3. The repository will appear in your sidebar with expandable stash list
 
 ### Managing Stashes
-1. **View Stash Content**: Click on any stash card to see its detailed diff
-2. **Apply a Stash**: Select a stash and click "Apply Selected Stash"
-3. **Drop a Stash**: Select a stash and click "Drop Selected Stash" (permanent!)
-4. **Refresh**: Use `Cmd/Ctrl+R` or the refresh button to reload data
+- **Expand Repository**: Click the repository name to see all stashes
+- **Select Stash**: Click any stash to view its changes
+- **Apply Stash**: Click ✅ to apply the stash to your working directory
+- **Drop Stash**: Click 🗑️ to permanently delete the stash
+- **Browse Files**: Select a stash to see changed files in the files sidebar
+- **View Diff**: Click any file to see the detailed code changes
 
 ### Keyboard Shortcuts
-- `Cmd/Ctrl+N`: Add new repository
-- `Cmd/Ctrl+R`: Refresh current repository
-- `Cmd/Ctrl+Q`: Quit application
+- `Cmd/Ctrl + N` - Add new repository
+- `Cmd/Ctrl + R` - Refresh all repositories
 
-## Application Structure
+## 🔧 Development
 
-```
-git-stash-election/
-├── main.js              # Electron main process
-├── preload.js           # Secure IPC bridge
-├── renderer/            # Frontend application
-│   ├── index.html       # Main UI
-│   ├── styles.css       # Application styling
-│   └── script.js        # Frontend logic
-├── package.json         # Dependencies and scripts
-└── README.md           # This file
-```
+### Available Scripts
 
-## How It Works
+- `npm run dev` - Start development mode with hot reload
+- `npm run dev:react` - Start only the React dev server
+- `npm run build:react` - Build React app for production
+- `npm run build` - Build React app and create Electron distributable
+- `npm run dist` - Create distributable packages for current platform
+- `npm start` - Start Electron with production React build
+- `npm run debug` - Start Electron in debug mode
 
-The app uses **Electron** to create a native desktop experience:
+### Development Workflow
 
-- **Main Process** (`main.js`): Manages windows, menus, and file dialogs
-- **Renderer Process** (`renderer/`): Handles the UI and user interactions
-- **IPC Communication**: Secure bridge between main and renderer processes
-- **simple-git Library**: Interfaces with git repositories
-- **electron-store**: Persists repository list between sessions
+1. **Development**: Use `npm run dev` for hot-reloading React + Electron
+2. **Testing**: Use `npm start` to test the production build
+3. **Distribution**: Use `npm run dist` to create platform-specific installers
 
-## Building for Distribution
+### State Management
 
-Build standalone executables:
+The app uses React Context with useReducer for centralized state management:
 
-```bash
-# Build for current platform
-npm run build
-
-# Build and package for distribution
-npm run dist
+```javascript
+const {
+  repositories,           // Array of added repositories
+  selectedRepository,     // Currently selected repository
+  selectedStash,         // Currently selected stash index
+  files,                 // Files in the selected stash
+  showNotification       // Function to show toast messages
+} = useApp()
 ```
 
-This creates distributables in the `dist/` folder for:
-- **macOS**: `.dmg` and `.app`
-- **Windows**: `.exe` installer
-- **Linux**: `.AppImage`
+## 🎨 UI Components
 
-## Requirements
+- **Sidebar**: Repository management and stash navigation
+- **FilesSidebar**: File browser with change status indicators
+- **MainContent**: Dynamic content area with welcome screen and diff viewer
+- **Notification**: Toast messages for user feedback
+- **WelcomeScreen**: Getting started guide for new users
 
-- **Node.js** (v16 or higher)
-- **Git** repositories you want to manage
-- **macOS 10.13+**, **Windows 10+**, or **Linux** (Ubuntu 18.04+)
+## 🤝 Contributing
 
-## Development
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-The app is built with:
-- **Electron 28+**: For cross-platform desktop support
-- **simple-git**: For git operations
-- **electron-store**: For settings persistence
-- **Modern CSS**: No external UI frameworks
+## 📝 License
 
-## Security
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-The app follows Electron security best practices:
-- Context isolation enabled
-- Node.js integration disabled in renderer
-- Secure IPC communication via preload script
-- No remote module usage
+## 🙏 Acknowledgments
 
-## Contributing
+- Built with [Electron](https://electronjs.org/) for cross-platform desktop development
+- Powered by [React 19](https://react.dev/) for modern UI development
+- Uses [simple-git](https://github.com/steveukx/git-js) for reliable git operations
+- Bundled with [Vite](https://vitejs.dev/) for fast development experience
 
-Feel free to submit issues and enhancement requests! The app is designed to be:
-- Cross-platform compatible
-- Secure and performant
-- Easy to extend with new features
+---
 
-## License
-
-MIT License - feel free to use and modify!
+**Made with ❤️ for developers who love clean git workflows**
