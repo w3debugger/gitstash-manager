@@ -8,6 +8,28 @@ const store = new Store();
 
 let mainWindow;
 
+// Debug mode configuration
+const isDebugMode = process.argv.includes('--debug') || process.argv.includes('--dev');
+
+// Centralized logging functions that respect debug mode
+const logger = {
+  log: (...args) => {
+    if (isDebugMode) {
+      console.log(...args);
+    }
+  },
+  error: (...args) => {
+    if (isDebugMode) {
+      console.error(...args);
+    }
+  },
+  warn: (...args) => {
+    if (isDebugMode) {
+      console.warn(...args);
+    }
+  }
+};
+
 // Enable live reload for development
 if (process.argv.includes('--dev')) {
   require('electron-reload')(__dirname, {
@@ -201,21 +223,21 @@ ipcMain.handle('get-stash-content', async (event, repoPath, index) => {
     const content = await git.stash(['show', '--patch', `stash@{${index}}`]);
     return { success: true, content };
   } catch (error) {
-    console.error('Stash content error:', error);
+    logger.error('Stash content error:', error);
     return { success: false, error: error.message };
   }
 });
 
 ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
   try {
-    console.log(`🔍 Getting files for stash@{${index}} in ${repoPath}`);
+    logger.log(`🔍 Getting files for stash@{${index}} in ${repoPath}`);
     const git = simpleGit(repoPath);
     
     // Method 1: Try stash show --name-status
     try {
-      console.log(`Method 1: git stash show --name-status stash@{${index}}`);
+      logger.log(`Method 1: git stash show --name-status stash@{${index}}`);
       const files = await git.stash(['show', '--name-status', `stash@{${index}}`]);
-      console.log('Method 1 raw output:', files);
+      logger.log('Method 1 raw output:', files);
       
       if (!files || !files.trim()) {
         throw new Error('Empty output from stash show');
@@ -254,17 +276,17 @@ ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
           };
         });
       
-      console.log(`✅ Method 1 succeeded, found ${fileList.length} files:`, fileList);
+      logger.log(`✅ Method 1 succeeded, found ${fileList.length} files:`, fileList);
       return { success: true, files: fileList };
       
     } catch (method1Error) {
-      console.error('❌ Method 1 failed:', method1Error.message);
+      logger.error('❌ Method 1 failed:', method1Error.message);
       
       // Method 2: Try alternative git command
       try {
-        console.log(`Method 2: git show --name-only stash@{${index}}`);
+        logger.log(`Method 2: git show --name-only stash@{${index}}`);
         const output = await git.raw(['show', '--name-only', `stash@{${index}}`]);
-        console.log('Method 2 raw output:', output);
+        logger.log('Method 2 raw output:', output);
         
         const files = output.split('\n')
           .filter(line => line.trim() && !line.startsWith('commit') && !line.startsWith('Author') && 
@@ -276,14 +298,14 @@ ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
             rawStatus: 'M'
           }));
         
-        console.log(`✅ Method 2 succeeded, found ${files.length} files:`, files);
+        logger.log(`✅ Method 2 succeeded, found ${files.length} files:`, files);
         return { success: true, files };
         
       } catch (method2Error) {
-        console.error('❌ Method 2 failed:', method2Error.message);
+        logger.error('❌ Method 2 failed:', method2Error.message);
         
         // Method 3: Return test data
-        console.log('⚠️ All methods failed, returning test data');
+        logger.log('⚠️ All methods failed, returning test data');
         return { 
           success: true, 
           files: [
@@ -299,7 +321,7 @@ ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
     }
     
   } catch (error) {
-    console.error('❌ Overall stash files error:', error);
+    logger.error('❌ Overall stash files error:', error);
     return { success: false, error: error.message };
   }
 });
@@ -307,17 +329,17 @@ ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
 ipcMain.handle('get-stash-file-content', async (event, repoPath, index, filename) => {
   try {
     const git = simpleGit(repoPath);
-    console.log(`Getting file content for stash@{${index}} file: ${filename}`);
+    logger.log(`Getting file content for stash@{${index}} file: ${filename}`);
     
     // Method 1: Try direct diff approach
     try {
       const content = await git.raw(['diff', `stash@{${index}}^`, `stash@{${index}}`, '--', filename]);
       if (content && content.trim()) {
-        console.log('Method 1 (diff) succeeded');
+        logger.log('Method 1 (diff) succeeded');
         return { success: true, content };
       }
     } catch (diffError) {
-      console.log('Method 1 (diff) failed:', diffError.message);
+      logger.log('Method 1 (diff) failed:', diffError.message);
     }
     
     // Method 2: Get stash commit hash and use show
@@ -326,22 +348,22 @@ ipcMain.handle('get-stash-file-content', async (event, repoPath, index, filename
       const stashHash = stashInfo.trim().split('\n')[0];
       
       if (stashHash) {
-        console.log('Got stash hash:', stashHash);
+        logger.log('Got stash hash:', stashHash);
         const content = await git.raw(['show', `${stashHash}`, '--', filename]);
         if (content && content.trim()) {
-          console.log('Method 2 (show with hash) succeeded');
+          logger.log('Method 2 (show with hash) succeeded');
           return { success: true, content };
         }
       }
     } catch (showError) {
-      console.log('Method 2 (show) failed:', showError.message);
+      logger.log('Method 2 (show) failed:', showError.message);
     }
     
     // Method 3: Simple git show with stash reference
     try {
       const content = await git.raw(['show', `stash@{${index}}:${filename}`]);
       if (content && content.trim()) {
-        console.log('Method 3 (show file content) succeeded - but this shows full file, not diff');
+        logger.log('Method 3 (show file content) succeeded - but this shows full file, not diff');
         // This gives us file content but not diff, so let's create a simple diff message
         return { 
           success: true, 
@@ -349,13 +371,13 @@ ipcMain.handle('get-stash-file-content', async (event, repoPath, index, filename
         };
       }
     } catch (fileError) {
-      console.log('Method 3 (file content) failed:', fileError.message);
+      logger.log('Method 3 (file content) failed:', fileError.message);
     }
     
     return { success: false, error: 'Unable to load file content with any method' };
     
   } catch (error) {
-    console.error('Overall stash file content error:', error);
+    logger.error('Overall stash file content error:', error);
     return { success: false, error: error.message };
   }
 });
@@ -399,7 +421,7 @@ ipcMain.handle('get-repo-status', async (event, repoPath) => {
     
     return { success: true, status: statusWithClean };
   } catch (error) {
-    console.error('Git status error:', error);
+    logger.error('Git status error:', error);
     return { success: false, error: error.message };
   }
 });

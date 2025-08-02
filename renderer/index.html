@@ -18,8 +18,13 @@
             </div>
             
             <div class="repositories-section">
-                <h3>Repositories</h3>
-                <div id="repositories-list" class="repositories-list">
+                <div class="repositories-header">
+                    <h3>📁 Repositories</h3>
+                    <button id="add-repo-btn-header" class="add-repo-btn-header" title="Add Repository">
+                        ➕
+                    </button>
+                </div>
+                <div id="repositories-tree" class="repositories-tree">
                     <div class="empty-repositories">
                         <div class="empty-icon">📁</div>
                         <p>No repositories added</p>
@@ -27,32 +32,10 @@
                     </div>
                 </div>
             </div>
-
-            <div class="stashes-section" id="sidebar-stashes-section" style="display: none;">
-                <div class="stashes-header">
-                    <h3>🏆 Stash Candidates</h3>
-                    <button id="refresh-stashes-btn" class="refresh-stashes-btn" title="Refresh Stashes">
-                        🔄
-                    </button>
-                </div>
-                <div id="sidebar-stash-list" class="sidebar-stash-list">
-                    <div class="loading-stashes">Loading stashes...</div>
-                </div>
-            </div>
         </div>
 
         <!-- Files sidebar -->
         <div class="files-sidebar" id="files-sidebar" style="display: none;">
-            <!-- Repository status section -->
-            <div class="status-section">
-                <div class="status-header">
-                    <h3>📊 Repository Status</h3>
-                </div>
-                <div id="repo-status" class="status-content">
-                    Loading repository status...
-                </div>
-            </div>
-
             <!-- Files section -->
             <div class="files-section">
                 <div class="files-header">

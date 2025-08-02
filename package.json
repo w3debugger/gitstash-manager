@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "debug": "electron . --debug",
     "build": "electron-builder",
     "dist": "electron-builder --publish=never"
   },

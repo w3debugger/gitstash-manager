@@ -58,78 +58,186 @@ body {
 }
 
 .repositories-section {
-    padding: 20px;
-    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.repositories-header {
+    padding: 20px 20px 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-.repositories-section h3 {
+.repositories-header h3 {
     font-size: 1em;
-    margin-bottom: 15px;
+    margin: 0;
     opacity: 0.9;
     font-weight: 500;
 }
 
-.repositories-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.repository-item {
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 12px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    border: 2px solid transparent;
-}
-
-.repository-item:hover {
+.add-repo-btn-header {
     background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.3s ease;
 }
 
-.repository-item.active {
-    background: rgba(255,255,255,0.25);
-    border-color: rgba(255,255,255,0.3);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+.add-repo-btn-header:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
+
+.repositories-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+/* Tree Repository Item Styles */
+.repository-tree-item {
+    margin: 0 15px 8px 15px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.repository-tree-item:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+}
+
+.repository-tree-item.expanded {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.25);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.repository-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.repository-header:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+
+
+.repo-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .repo-name {
     font-weight: 600;
     font-size: 0.95em;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     display: flex;
     align-items: center;
     gap: 8px;
+    color: rgba(255,255,255,0.95);
 }
 
 .repo-path {
-    font-size: 0.8em;
-    opacity: 0.8;
+    font-size: 0.75em;
+    opacity: 0.7;
     word-break: break-all;
+    color: rgba(255,255,255,0.8);
 }
 
-.repo-remove {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    background: rgba(231, 76, 60, 0.8);
-    border: none;
-    color: white;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 12px;
+.repo-actions {
+    display: flex;
+    gap: 4px;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.repository-item:hover .repo-remove {
+.repository-header:hover .repo-actions {
     opacity: 1;
+}
+
+.repo-action-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.repo-action-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+.repo-action-btn.remove:hover {
+    background: rgba(231, 76, 60, 0.8);
+}
+
+.repo-action-btn.refresh:hover {
+    background: rgba(52, 152, 219, 0.8);
+}
+
+/* Repository Stashes Container */
+.repository-stashes {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background: rgba(0,0,0,0.1);
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.repository-stashes.expanded {
+    max-height: 500px;
+    transition: max-height 0.3s ease-in;
+}
+
+.stashes-container {
+    padding: 10px 0;
+}
+
+.stashes-loading {
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 0.85em;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.stashes-empty {
+    padding: 15px 25px;
+    text-align: center;
+    font-size: 0.85em;
+    opacity: 0.7;
+    font-style: italic;
+}
+
+.stashes-empty::before {
+    content: '📭';
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 5px;
 }
 
 .empty-repositories {
@@ -160,88 +268,74 @@ body {
     transform: translateY(-2px);
 }
 
-/* Sidebar Stashes Styles */
-.stashes-section {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
+/* Legacy styles - keeping for compatibility but these sections are now part of tree */
 
-.stashes-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.stashes-header h3 {
-    font-size: 1em;
-    opacity: 0.9;
-    font-weight: 500;
-    margin: 0;
-}
-
-.refresh-stashes-btn {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.refresh-stashes-btn:hover {
-    background: rgba(255,255,255,0.3);
-    transform: scale(1.1);
-}
-
-.sidebar-stash-list {
-    flex: 1;
-    overflow-y: auto;
-}
-
-.sidebar-stash-item {
-    background: rgba(255,255,255,0.1);
-    border-radius: 8px;
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+/* Tree Stash Item Styles */
+.tree-stash-item {
+    margin: 0 15px 6px 25px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
     position: relative;
     display: flex;
     align-items: center;
-    gap: 8px;
+    overflow: hidden;
+}
+
+.tree-stash-item::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    width: 10px;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-50%);
+}
+
+.tree-stash-item:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.2);
+    transform: translateX(3px);
+}
+
+.tree-stash-item.selected {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.4);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .stash-content {
     flex: 1;
-    padding: 12px;
+    padding: 10px 12px;
     cursor: pointer;
+    min-width: 0;
 }
 
 .stash-actions {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 8px;
-    background: rgba(0,0,0,0.1);
-    border-left: 1px solid rgba(255,255,255,0.2);
-    border-radius: 0 8px 8px 0;
+    gap: 3px;
+    padding: 6px 8px;
+    background: rgba(0,0,0,0.15);
+    border-left: 1px solid rgba(255,255,255,0.15);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.tree-stash-item:hover .stash-actions {
+    opacity: 1;
 }
 
 .stash-action-btn {
-    width: 32px;
-    height: 26px;
-    border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 4px;
+    width: 26px;
+    height: 22px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 3px;
     background: rgba(255,255,255,0.1);
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 11px;
+    font-size: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -250,8 +344,8 @@ body {
 }
 
 .stash-action-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transform: scale(1.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
 }
 
 .stash-action-btn.apply:hover {
@@ -264,62 +358,44 @@ body {
     border-color: #dc3545;
 }
 
-.sidebar-stash-item:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateX(5px);
-}
-
-.sidebar-stash-item.selected {
-    background: rgba(255,255,255,0.25);
-    border-color: rgba(255,255,255,0.4);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-}
-
-.sidebar-stash-item::before {
-    content: '🗳️';
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    font-size: 1em;
-    opacity: 0.7;
-}
-
 .stash-sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .stash-sidebar-index {
-    background: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.2);
     color: white;
-    padding: 3px 8px;
-    border-radius: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
     font-weight: bold;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 .stash-sidebar-hash {
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 0.7em;
-    opacity: 0.8;
+    font-size: 0.65em;
+    opacity: 0.7;
 }
 
 .stash-sidebar-message {
     font-weight: 500;
-    font-size: 0.9em;
-    line-height: 1.3;
-    margin-bottom: 4px;
+    font-size: 0.85em;
+    line-height: 1.2;
+    margin-bottom: 3px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: rgba(255,255,255,0.9);
 }
 
 .stash-sidebar-date {
-    font-size: 0.75em;
-    opacity: 0.7;
+    font-size: 0.7em;
+    opacity: 0.6;
+    color: rgba(255,255,255,0.7);
 }
 
 .loading-stashes, .empty-stashes {
@@ -346,40 +422,14 @@ body {
     overflow: hidden;
 }
 
-/* Status section in files sidebar */
-.status-section {
-    background: white;
-    border-bottom: 2px solid #e1e8ed;
-    margin-bottom: 0;
-}
 
-.status-header {
-    padding: 15px 20px;
-    border-bottom: 1px solid #e1e8ed;
-    background: #f8f9fa;
-}
-
-.status-header h3 {
-    margin: 0;
-    font-size: 14px;
-    color: #495057;
-    font-weight: 600;
-}
-
-.status-section .status-content {
-    padding: 15px 20px;
-    max-height: 150px;
-    overflow-y: auto;
-    font-size: 14px;
-    line-height: 1.4;
-}
 
 /* Files section in files sidebar */
 .files-section {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-height: 300px;
+    height: 100%;
 }
 
 .files-header {
