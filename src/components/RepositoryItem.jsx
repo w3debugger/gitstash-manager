@@ -74,24 +74,26 @@ function RepositoryItem({ repository }) {
   }
 
   return (
-    <div className={`repository-tree-item ${isExpanded ? 'expanded' : ''} ${isSelected ? 'selected' : ''}`}>
-      <div className="repository-header" onClick={toggleRepository}>
-        <div className="repo-info">
-          <div className="repo-name">
+    <div className={`mx-4 mb-2 rounded-lg bg-white/5 border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 ${
+      isExpanded ? 'bg-white/15 border-white/25 shadow-lg shadow-black/20' : ''
+    } ${isSelected ? 'ring-2 ring-white/30' : ''}`}>
+      <div className="flex items-center py-3 px-4 cursor-pointer transition-all duration-200 hover:bg-white/10 relative group" onClick={toggleRepository}>
+        <div className="flex-1 min-w-0 overflow-hidden">
+          <div className="font-semibold text-sm mb-1 flex items-center gap-2 text-white/95">
             📂 {repository.name}
           </div>
-          <div className="repo-path">{repository.path}</div>
+          <div className="text-xs opacity-70 text-white/80 overflow-hidden text-ellipsis whitespace-nowrap break-all">{repository.path}</div>
         </div>
-        <div className="repo-actions" onClick={(e) => e.stopPropagation()}>
+        <div className="flex gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:opacity-100" onClick={(e) => e.stopPropagation()}>
           <button 
-            className="repo-action-btn refresh" 
+            className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-blue-500/80 hover:scale-110" 
             title="Refresh Repository"
             onClick={refreshRepository}
           >
             🔄
           </button>
           <button 
-            className="repo-action-btn remove" 
+            className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-red-500/80 hover:scale-110" 
             title="Remove Repository"
             onClick={removeRepository}
           >
@@ -101,7 +103,7 @@ function RepositoryItem({ repository }) {
       </div>
       
       {isExpanded && (
-        <div className="stashes-container">
+        <div className="py-2.5">
           <StashList 
             repository={repository}
             stashes={stashes}

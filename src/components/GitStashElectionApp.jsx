@@ -138,15 +138,15 @@ function GitStashElectionApp() {
   }, [selectedRepository, selectedStash])
 
   return (
-    <div className="app-container">
+    <div className="flex h-screen overflow-hidden">
       <div 
         ref={sidebarRef}
-        className="sidebar-panel"
+        className="relative bg-gradient-to-br from-purple-500 to-purple-700 text-white flex flex-col border-r border-white/10 overflow-visible min-w-[200px] max-w-[600px]"
         style={{ width: `${sidebarWidth}px` }}
       >
         <Sidebar />
         <div 
-          className="resize-handle resize-handle-right"
+          className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
           onMouseDown={(e) => handleResizeStart('sidebar', e)}
           title="Drag to resize sidebar"
         />
@@ -154,20 +154,20 @@ function GitStashElectionApp() {
       
       <div 
         ref={filesSidebarRef}
-        className="files-sidebar-panel"
+        className="relative bg-gray-50 border-r border-gray-200 overflow-visible min-w-0 max-w-[500px]"
         style={{ width: selectedRepository && selectedStash !== null ? `${filesSidebarWidth}px` : '0px' }}
       >
         <FilesSidebar />
         {selectedRepository && selectedStash !== null && (
           <div 
-            className="resize-handle resize-handle-right"
+            className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
             onMouseDown={(e) => handleResizeStart('filesSidebar', e)}
             title="Drag to resize files panel"
           />
         )}
       </div>
       
-      <div className="main-content-panel">
+      <div className="flex-1 overflow-hidden bg-white">
         <MainContent />
       </div>
       

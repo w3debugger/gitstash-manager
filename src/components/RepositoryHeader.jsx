@@ -36,14 +36,14 @@ function RepositoryHeader() {
   if (!selectedRepository) return null
 
   return (
-    <div className="repo-header">
-      <div className="repo-info">
-        <h1>{selectedRepository.name}</h1>
-        <p>{selectedRepository.path}</p>
+    <div className="bg-white py-6 px-8 border-b border-gray-200 flex justify-between items-center shadow-sm">
+      <div>
+        <h1 className="text-3xl text-slate-700 mb-1 font-semibold">{selectedRepository.name}</h1>
+        <p className="text-slate-500 text-base">{selectedRepository.path}</p>
       </div>
-      <div className="repo-actions">
+      <div>
         <button 
-          className="refresh-btn"
+          className="bg-blue-500 text-white border-none py-3 px-6 rounded-full cursor-pointer font-semibold transition-all duration-300 hover:bg-blue-600 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           onClick={refreshAllRepositories}
         >
           🔄 Refresh All

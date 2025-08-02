@@ -13,12 +13,12 @@ function RepositoryTree({ repositories }) {
 
   if (repositories.length === 0) {
     return (
-      <div className="repositories-tree">
-        <div className="empty-repositories">
-          <div className="empty-icon">📁</div>
-          <p>No repositories added</p>
+      <div className="flex-1 overflow-y-auto py-2.5">
+        <div className="flex flex-col items-center justify-center p-8 opacity-80">
+          <div className="text-4xl mb-4">📁</div>
+          <p className="text-sm opacity-90 mb-4 text-center">No repositories added</p>
           <button 
-            className="add-first-repo"
+            className="bg-white/20 border border-white/30 text-white px-4 py-2 rounded-md cursor-pointer text-sm transition-all duration-300 hover:bg-white/30 hover:border-white/40 hover:scale-105"
             onClick={addRepository}
           >
             Add Repository
@@ -29,7 +29,7 @@ function RepositoryTree({ repositories }) {
   }
 
   return (
-    <div className="repositories-tree">
+    <div className="flex-1 overflow-y-auto py-2.5">
       {repositories.map(repo => (
         <RepositoryItem key={repo.id} repository={repo} />
       ))}

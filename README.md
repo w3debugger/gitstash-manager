@@ -4,6 +4,7 @@ A modern Electron desktop application for managing git stashes across multiple r
 
 ![Git Stash Election](https://img.shields.io/badge/Electron-App-47848F?style=for-the-badge&logo=electron)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss)
 ![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=for-the-badge)
 
 ## ✨ Features
@@ -15,7 +16,8 @@ A modern Electron desktop application for managing git stashes across multiple r
 - **🔍 Diff Viewer** - View detailed code changes with syntax highlighting
 - **📏 Resizable Columns** - Drag to resize sidebar and files panel for optimal workflow
 - **💾 Persistent Storage** - Remembers your repositories and panel sizes between sessions
-- **🎨 Modern UI** - Clean, responsive interface built with React 19
+- **🎨 Modern UI** - Clean, responsive interface built with React 19 and Tailwind CSS v4
+- **⚡ Optimized Styling** - Utility-first CSS approach with component-scoped styles for better performance
 
 ## 🚀 Quick Start
 
@@ -56,6 +58,7 @@ npm run build:react
 This application uses a modern tech stack:
 
 - **Frontend**: React 19.1 with Hooks and Context API
+- **Styling**: Tailwind CSS v4 with utility-first approach and PostCSS
 - **Build Tool**: Vite for fast development and optimized builds
 - **Desktop**: Electron 28 for cross-platform desktop functionality
 - **Git Operations**: simple-git for reliable git command execution
@@ -77,11 +80,12 @@ gitstash-manager/
 │   ├── context/                 # React Context for state management
 │   │   └── AppContext.jsx           # Centralized app state
 │   ├── main.jsx                 # React entry point
-│   └── index.css               # Global styles
+│   └── index.css               # Tailwind imports & minimal global styles
 ├── main.js                      # Electron main process
 ├── preload.js                   # Electron preload script
 ├── index.html                   # HTML entry point
-├── vite.config.js              # Vite configuration
+├── vite.config.mjs             # Vite configuration (ESM)
+├── tailwind.config.js          # Tailwind CSS configuration
 └── package.json                # Dependencies and scripts
 ```
 
@@ -171,6 +175,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Built with [Electron](https://electronjs.org/) for cross-platform desktop development
 - Powered by [React 19](https://react.dev/) for modern UI development
+- Styled with [Tailwind CSS v4](https://tailwindcss.com/) for utility-first styling
 - Uses [simple-git](https://github.com/steveukx/git-js) for reliable git operations
 - Bundled with [Vite](https://vitejs.dev/) for fast development experience
 

@@ -35,8 +35,8 @@ function FilesList({ files }) {
 
   if (files.length === 0) {
     return (
-      <div className="files-list">
-        <div className="loading-files">
+      <div className="flex-1 overflow-y-auto p-4 min-h-[200px]">
+        <div className="text-center py-8 text-slate-500 italic">
           Select a stash to view files
         </div>
       </div>
@@ -44,17 +44,24 @@ function FilesList({ files }) {
   }
 
   return (
-    <div className="files-list">
+    <div className="flex-1 overflow-y-auto p-4 min-h-[200px]">
       {files.map((file, index) => (
         <div 
           key={`${file.filename}-${index}`}
-          className={`file-item ${selectedFile?.filename === file.filename ? 'selected' : ''}`}
+          className={`bg-white border border-gray-200 rounded-lg py-3 px-4 mb-2 cursor-pointer transition-all duration-300 relative flex items-center hover:shadow-md hover:border-blue-300 hover:-translate-y-0.5 ${
+            selectedFile?.filename === file.filename ? 'shadow-md border-blue-400 bg-blue-50 -translate-y-0.5' : ''
+          }`}
           onClick={() => selectFile(file)}
         >
-          <div className="file-icon">{file.statusIcon}</div>
-          <div className="file-info">
-            <div className="file-name">{file.filename}</div>
-            <div className="file-status">{file.status}</div>
+          <div className="text-lg mr-3 flex-shrink-0">{file.statusIcon}</div>
+          <div className="flex-1 min-w-0">
+            <div className="font-medium text-sm text-slate-800 truncate mb-1">{file.filename}</div>
+            <div className={`text-xs font-medium px-2 py-0.5 rounded inline-block ${
+              file.status === 'Added' ? 'bg-green-100 text-green-700' :
+              file.status === 'Modified' ? 'bg-yellow-100 text-yellow-700' :
+              file.status === 'Deleted' ? 'bg-red-100 text-red-700' :
+              'bg-gray-100 text-gray-700'
+            }`}>{file.status}</div>
           </div>
         </div>
       ))}

@@ -82,32 +82,38 @@ function StashItem({ repository, stash, index }) {
 
   return (
     <div 
-      className={`tree-stash-item ${isSelected ? 'selected' : ''}`}
+      className={`mx-4 mr-6 mb-1.5 bg-white/8 rounded-md border border-white/10 transition-all duration-200 relative flex items-center overflow-hidden hover:bg-white/15 hover:border-white/20 hover:translate-x-1 group before:content-[''] before:absolute before:-left-2.5 before:top-1/2 before:w-2.5 before:h-px before:bg-white/30 before:transform before:-translate-y-1/2 ${
+        isSelected ? 'bg-white/25 border-white/40 shadow-lg shadow-black/20' : ''
+      }`}
       onClick={selectStash}
     >
-      <div className="stash-content">
-        <div className="stash-info">
-          <div className="stash-message">{stash.message}</div>
-          <div className="stash-meta">
-            📅 {formatDate(stash.date)} • {stash.author_name}
-          </div>
+      <div className="flex-1 py-2.5 px-3 cursor-pointer min-w-0 overflow-hidden">
+        <div className="font-medium text-sm leading-tight mb-1 text-white/90 break-words overflow-hidden" style={{
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical'
+        }}>
+          {stash.message}
         </div>
-        <div className="stash-actions">
-          <button 
-            className="stash-action-btn apply" 
-            title="Apply Stash"
-            onClick={applyStash}
-          >
-            ✅
-          </button>
-          <button 
-            className="stash-action-btn drop" 
-            title="Drop Stash"
-            onClick={dropStash}
-          >
-            🗑️
-          </button>
+        <div className="text-xs opacity-60 text-white/70">
+          📅 {formatDate(stash.date)} • {stash.author_name}
         </div>
+      </div>
+      <div className="flex gap-1 px-2 py-1.5 bg-black/15 border-l border-white/15 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+        <button 
+          className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-green-600/80 hover:border-green-500" 
+          title="Apply Stash"
+          onClick={applyStash}
+        >
+          ✅
+        </button>
+        <button 
+          className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-red-600/80 hover:border-red-500" 
+          title="Drop Stash"
+          onClick={dropStash}
+        >
+          🗑️
+        </button>
       </div>
     </div>
   )

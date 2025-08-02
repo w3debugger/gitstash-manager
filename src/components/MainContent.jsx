@@ -9,14 +9,14 @@ function MainContent() {
 
   if (repositories.length === 0) {
     return (
-      <div className="main-content">
+      <div className="w-full h-full flex flex-col overflow-hidden">
         <WelcomeScreen />
       </div>
     )
   }
 
   return (
-    <div className="main-content">
+    <div className="w-full h-full flex flex-col overflow-hidden">
       {selectedRepository && <RepositoryHeader />}
       <StashDetailsView />
     </div>
