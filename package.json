@@ -1,5 +1,5 @@
 {
-  "name": "git-stash-election",
+  "name": "gitstash-manager",
   "version": "1.0.0",
   "description": "An Electron desktop app for viewing and managing git stashes across multiple repositories",
   "main": "main.js",
@@ -18,8 +18,8 @@
     "electron-builder": "^24.6.4"
   },
   "build": {
-    "appId": "com.gitstash.election",
-    "productName": "Git Stash Election",
+    "appId": "com.gitstash.manager",
+    "productName": "GitStash Manager",
     "directories": {
       "output": "dist"
     },
@@ -39,7 +39,7 @@
       "target": "AppImage"
     }
   },
-  "keywords": ["git", "stash", "election", "voting", "electron", "desktop"],
+  "keywords": ["git", "stash", "manager", "developer-tools", "electron", "desktop"],
   "author": "",
   "license": "MIT"
 }
