@@ -11,6 +11,7 @@
     "dist": "vite build && electron-builder --publish=never"
   },
   "dependencies": {
+    "classnames": "^2.5.1",
     "electron-store": "^8.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

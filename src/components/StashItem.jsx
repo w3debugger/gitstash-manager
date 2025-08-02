@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { useApp } from '../context/AppContext'
 
 function StashItem({ repository, stash, index }) {
@@ -82,9 +83,16 @@ function StashItem({ repository, stash, index }) {
 
   return (
     <div 
-      className={`mx-4 mr-6 mb-1.5 bg-white/8 rounded-md border border-white/10 transition-all duration-200 relative flex items-center overflow-hidden hover:bg-white/15 hover:border-white/20 hover:translate-x-1 group before:content-[''] before:absolute before:-left-2.5 before:top-1/2 before:w-2.5 before:h-px before:bg-white/30 before:transform before:-translate-y-1/2 ${
-        isSelected ? 'bg-white/25 border-white/40 shadow-lg shadow-black/20' : ''
-      }`}
+      className={classNames(
+        'mx-4 mr-6 mb-1.5 bg-white/8 rounded-md border border-white/10',
+        'transition-all duration-200 relative flex items-center overflow-hidden group',
+        'hover:bg-white/15 hover:border-white/20 hover:translate-x-1',
+        "before:content-[''] before:absolute before:-left-2.5 before:top-1/2",
+        'before:w-2.5 before:h-px before:bg-white/30 before:transform before:-translate-y-1/2',
+        {
+          'bg-white/25 border-white/40 shadow-lg shadow-black/20': isSelected
+        }
+      )}
       onClick={selectStash}
       data-id={`stash-item-${repository.id}-${index}`}
     >

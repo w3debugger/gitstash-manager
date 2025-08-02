@@ -1,4 +1,5 @@
 import React from 'react'
+import classNames from 'classnames'
 import { useApp } from '../context/AppContext'
 import StashList from './StashList'
 
@@ -74,9 +75,17 @@ function RepositoryItem({ repository }) {
   }
 
   return (
-    <div className={`mx-4 mb-2 rounded-lg bg-white/5 border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 ${
-      isExpanded ? 'bg-white/15 border-white/25 shadow-lg shadow-black/20' : ''
-    } ${isSelected ? 'ring-2 ring-white/30' : ''}`} data-id={`repository-item-${repository.id}`}>
+    <div 
+      className={classNames(
+        'mx-4 mb-2 rounded-lg bg-white/5 border border-white/10 overflow-hidden',
+        'transition-all duration-300 hover:bg-white/10 hover:border-white/20',
+        {
+          'bg-white/15 border-white/25 shadow-lg shadow-black/20': isExpanded,
+          'ring-2 ring-white/30': isSelected
+        }
+      )}
+      data-id={`repository-item-${repository.id}`}
+    >
       <div className="flex items-center py-3 px-4 cursor-pointer transition-all duration-200 hover:bg-white/10 relative group" onClick={toggleRepository} data-id={`repository-header-${repository.id}`}>
         <div className="flex-1 min-w-0 overflow-hidden">
           <div className="font-semibold text-sm mb-1 flex items-center gap-2 text-white/95">
