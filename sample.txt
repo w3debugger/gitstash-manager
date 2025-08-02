@@ -1,5 +1,0 @@
-This is a sample file for testing git stash functionality.
-
-Line 1: Original content
-Line 2: Original content
-Line 3: Original content

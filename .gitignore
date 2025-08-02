@@ -13,6 +13,7 @@ yarn-error.log*
 
 # Build outputs
 dist/
+dist-react/
 build/
 out/
 
