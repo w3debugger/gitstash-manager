@@ -13,7 +13,7 @@ function RepositoryTree({ repositories }) {
 
   if (repositories.length === 0) {
     return (
-      <div className="flex-1 overflow-y-auto py-2.5" data-id="repository-tree-empty">
+      <div className="flex-1 overflow-y-auto py-2.5 hide-scrollbar" data-id="repository-tree-empty">
         <div className="flex flex-col items-center justify-center p-8 opacity-80">
           <div className="text-4xl mb-4">📁</div>
           <p className="text-sm opacity-90 mb-4 text-center">No repositories added</p>

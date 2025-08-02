@@ -46,21 +46,44 @@ body.resizing .stash-sidebar-message {
   text-overflow: unset !important;
 }
 
-/* Custom scrollbar styling */
+/* Custom scrollbar styling - transparent background */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: transparent;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hide scrollbar for column 1 (repository tree) */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* WebKit */
+}
+
+/* Utility classes for scrollbar gutter control */
+.scrollbar-gutter-stable {
+  scrollbar-gutter: stable; /* Always reserve space for scrollbar */
+}
+
+.scrollbar-gutter-auto {
+  scrollbar-gutter: auto; /* Only reserve space when scrollbar appears */
+}
+
+.no-layout-shift {
+  scrollbar-gutter: auto; /* Prevent layout shifts without permanent space */
 }

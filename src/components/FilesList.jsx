@@ -36,7 +36,7 @@ function FilesList({ files }) {
 
   if (files.length === 0) {
     return (
-      <div className="flex-1 overflow-y-auto p-4 min-h-[200px]" data-id="files-list-empty">
+      <div className="h-full overflow-y-auto p-4" data-id="files-list-empty">
         <div className="text-center py-8 text-slate-500 italic">
           Select a stash to view files
         </div>
@@ -45,7 +45,7 @@ function FilesList({ files }) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 min-h-[200px]" data-id="files-list">
+    <div className="h-full overflow-y-auto p-4" data-id="files-list">
       {files.map((file, index) => {
         const splitFilename = file.filename.split('/');
         const path = splitFilename.slice(0, -1).join('/');
