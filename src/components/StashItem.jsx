@@ -73,44 +73,24 @@ function StashItem({ repository, stash, index }) {
     }
   }
 
-  const formatDate = (dateString) => {
-    try {
-      return new Date(dateString).toLocaleDateString()
-    } catch {
-      return dateString
-    }
-  }
-
   return (
     <div 
       className={classNames(
-        'mx-4 mr-6 mb-1.5 bg-white/8 border border-white/10',
-        'transition-all duration-200 relative flex items-center overflow-hidden group',
-        'hover:bg-white/15 hover:border-white/20 hover:translate-x-1',
-        "before:content-[''] before:absolute before:-left-2.5 before:top-1/2",
-        'before:w-2.5 before:h-px before:bg-white/30 before:transform before:-translate-y-1/2',
+        'flex gap-2',
         {
-          'bg-white/25 border-white/40 shadow-lg shadow-black/20': isSelected
+          'bg-gray-100/10': isSelected
         }
       )}
       onClick={selectStash}
       data-id={`stash-item-${repository.id}-${index}`}
     >
-      <div className="flex-1 py-2.5 px-3 cursor-pointer min-w-0 overflow-hidden">
-        <div className="font-medium text-sm leading-tight mb-1 text-white/90 break-words overflow-hidden" style={{
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical'
-        }}>
-          {stash.message}
-        </div>
-        <div className="text-xs opacity-60 text-white/70">
-          📅 {formatDate(stash.date)} • {stash.author_name}
-        </div>
-      </div>
-      <div className="flex gap-1 px-2 py-1.5 bg-black/15 border-l border-white/15 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+      <button className="TextButton truncate font-mono">
+        {index}: {stash.message}
+      </button>
+
+      <div className="flex gap-1">
         <button 
-          className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-green-600/80 hover:border-green-500" 
+          className="IconButton" 
           title="Apply Stash"
           onClick={applyStash}
           data-id={`apply-stash-btn-${repository.id}-${index}`}
@@ -118,7 +98,7 @@ function StashItem({ repository, stash, index }) {
           ✅
         </button>
         <button 
-          className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-red-600/80 hover:border-red-500" 
+          className="IconButton" 
           title="Drop Stash"
           onClick={dropStash}
           data-id={`drop-stash-btn-${repository.id}-${index}`}

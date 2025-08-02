@@ -1,6 +1,7 @@
 import React from 'react'
+import classNames from 'classnames'
 import { useApp } from '../context/AppContext'
-import RepositoryTree from './RepositoryTree'
+import RepositoryItem from './RepositoryItem'
 
 function Sidebar() {
   const { repositories } = useApp()
@@ -14,24 +15,25 @@ function Sidebar() {
   }
 
   return (
-    <div className="w-full bg-transparent text-white flex flex-col border-r-0 overflow-hidden relative z-10" data-id="sidebar">
-      <div className="p-5 border-b border-white/10 flex justify-between items-center" data-id="sidebar-header">
-        <h2 className="text-lg font-semibold">🗳️ Git Stash Election</h2>
-      </div>
+    <div className="w-full h-full flex flex-col" data-id="sidebar">
+      <h2 className="text-lg font-semibold p-4">🗳️ Git Stash Election</h2>
       
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="py-5 px-5 pb-2.5 flex justify-between items-center border-b border-white/10">
-          <h3 className="text-base m-0 opacity-90 font-medium">📁 Repositories</h3>
-          <button 
-            className="bg-white/20 border-none text-white w-6 h-6 rounded-full cursor-pointer text-xs transition-all duration-300 hover:bg-white/30 hover:scale-110" 
-            title="Add Repository"
-            onClick={addRepository}
-            data-id="add-repository-btn"
-          >
-            ➕
-          </button>
-        </div>
-        <RepositoryTree repositories={repositories} />
+      <div className="flex-1 flex flex-col grow gap-2 border-y border-white/10 p-4 overflow-y-auto">
+        {repositories.map(repo => (
+          <RepositoryItem key={repo.id} repository={repo} />
+        ))}
+      </div>
+
+      <div className="flex justify-evenly gap-2 p-4">
+        <button
+          onClick={addRepository}
+          data-id="add-repository-btn"
+          className={classNames(
+            'Button'
+          )}
+        >
+          Add New Repository
+        </button>
       </div>
     </div>
   )

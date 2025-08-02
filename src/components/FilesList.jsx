@@ -45,7 +45,10 @@ function FilesList({ files }) {
   }
 
   return (
-    <div className="h-full overflow-y-auto p-4" data-id="files-list">
+    <div
+      data-id="files-list"
+      className="h-full overflow-y-auto p-4 flex flex-col gap-2"
+    >
       {files.map((file, index) => {
         const splitFilename = file.filename.split('/');
         const path = splitFilename.slice(0, -1).join('/');
@@ -54,42 +57,28 @@ function FilesList({ files }) {
           <div 
             key={`${file.filename}-${index}`}
             className={classNames(
-              'bg-white border border-gray-200 py-3 px-4 mb-2',
-              'cursor-pointer transition-all duration-300 relative flex items-center',
-              'hover:shadow-md hover:border-blue-300 hover:-translate-y-0.5',
+              'flex items-center gap-3',
+              'font-mono text-xs',
+              'cursor-pointer',
+              'hover:bg-gray-200',
               {
-                'shadow-md border-blue-400 bg-blue-50 -translate-y-0.5': selectedFile?.filename === file.filename
+                'text-purple-500': selectedFile?.filename === file.filename
               }
             )}
             onClick={() => selectFile(file)}
             data-id={`file-item-${index}`}
           >
-            <div className="text-lg mr-3 flex-shrink-0">{file.statusIcon}</div>
-            <div className="flex-1 min-w-0">
-              <div className="font-medium text-sm text-slate-800 mb-1 overflow-hidden flex whitespace-nowrap">
-                {path
-                 ? (
-                  <>
-                    <div className="truncate">{path}</div>
-                    <div>/{filename}</div>
-                  </>
-                 ) : (
+            <div className="shrink-0">{file.statusIcon}</div>
+            <div className="grow overflow-hidden flex whitespace-nowrap">
+              {path
+                ? (
+                <>
+                  <div className="truncate">{path}</div>
+                  <div>/{filename}</div>
+                </>
+                ) : (
                   <div className="truncate">{filename}</div>
-                 )}
-              </div>
-              <div 
-                className={classNames(
-                  'text-xs font-medium px-2 py-0.5 rounded inline-block',
-                  {
-                    'bg-green-100 text-green-700': file.status === 'Added',
-                    'bg-yellow-100 text-yellow-700': file.status === 'Modified',
-                    'bg-red-100 text-red-700': file.status === 'Deleted',
-                    'bg-gray-100 text-gray-700': !['Added', 'Modified', 'Deleted'].includes(file.status)
-                  }
                 )}
-              >
-                {file.status}
-              </div>
             </div>
           </div>
         );

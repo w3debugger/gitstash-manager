@@ -76,26 +76,27 @@ function RepositoryItem({ repository }) {
 
   return (
     <div 
+      data-id={`repository-item-${repository.id}`}
       className={classNames(
-        'mx-4 mb-2 bg-white/5 border border-white/10 overflow-hidden',
-        'transition-all duration-300 hover:bg-white/10 hover:border-white/20',
+        'border border-white/20 rounded-xl',
         {
-          'bg-white/15 border-white/25 shadow-lg shadow-black/20': isExpanded,
-          'ring-2 ring-white/30': isSelected
+          'bg-white/10': isExpanded,
+          'bg-white/5': isSelected
         }
       )}
-      data-id={`repository-item-${repository.id}`}
     >
-      <div className="flex items-center py-3 px-4 cursor-pointer transition-all duration-200 hover:bg-white/10 relative group" onClick={toggleRepository} data-id={`repository-header-${repository.id}`}>
-        <div className="flex-1 min-w-0 overflow-hidden">
-          <div className="font-semibold text-sm mb-1 flex items-center gap-2 text-white/95">
-            📂 {repository.name}
-          </div>
-          <div className="text-xs opacity-70 text-white/80 overflow-hidden text-ellipsis whitespace-nowrap break-all">{repository.path}</div>
+      <div
+        data-id={`repository-header-${repository.id}`}
+        onClick={toggleRepository}
+        className="flex items-center gap-2 p-2 cursor-pointer"
+      >
+        <div className="flex flex-col gap-1 grow overflow-hidden">
+          <div>{repository.name}</div>
+          <div className="text-xs truncate text-white/60">{repository.path}</div>
         </div>
-        <div className="flex gap-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:opacity-100" onClick={(e) => e.stopPropagation()}>
+        <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
           <button 
-            className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-blue-500/80 hover:scale-110" 
+            className="IconButton" 
             title="Refresh Repository"
             onClick={refreshRepository}
             data-id={`refresh-repository-btn-${repository.id}`}
@@ -103,7 +104,7 @@ function RepositoryItem({ repository }) {
             🔄
           </button>
           <button 
-            className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-red-500/80 hover:scale-110" 
+            className="IconButton" 
             title="Remove Repository"
             onClick={removeRepository}
             data-id={`remove-repository-btn-${repository.id}`}
@@ -114,7 +115,10 @@ function RepositoryItem({ repository }) {
       </div>
       
       {isExpanded && (
-        <div className="py-2.5" data-id={`repository-stashes-${repository.id}`}>
+        <div
+          data-id={`repository-stashes-${repository.id}`}
+          className="border-t border-gray-500/50"
+        >
           <StashList 
             repository={repository}
             stashes={stashes}
