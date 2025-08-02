@@ -30,13 +30,8 @@ const logger = {
   }
 };
 
-// Enable live reload for development
-if (process.argv.includes('--dev')) {
-  require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, '..', 'node_modules', '.bin', 'electron'),
-    hardResetMethod: 'exit'
-  });
-}
+// Live reload is handled by Vite for React components
+// Electron main process restart is not needed with our current setup
 
 function createWindow() {
   // Create the browser window
