@@ -77,7 +77,7 @@ function RepositoryItem({ repository }) {
   return (
     <div 
       className={classNames(
-        'mx-4 mb-2 rounded-lg bg-white/5 border border-white/10 overflow-hidden',
+        'mx-4 mb-2 bg-white/5 border border-white/10 overflow-hidden',
         'transition-all duration-300 hover:bg-white/10 hover:border-white/20',
         {
           'bg-white/15 border-white/25 shadow-lg shadow-black/20': isExpanded,

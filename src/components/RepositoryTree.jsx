@@ -18,7 +18,7 @@ function RepositoryTree({ repositories }) {
           <div className="text-4xl mb-4">📁</div>
           <p className="text-sm opacity-90 mb-4 text-center">No repositories added</p>
           <button 
-            className="bg-white/20 border border-white/30 text-white px-4 py-2 rounded-md cursor-pointer text-sm transition-all duration-300 hover:bg-white/30 hover:border-white/40 hover:scale-105"
+            className="bg-white/20 border border-white/30 text-white px-4 py-2 cursor-pointer text-sm transition-all duration-300 hover:bg-white/30 hover:border-white/40 hover:scale-105"
             onClick={addRepository}
             data-id="add-first-repository-btn"
           >

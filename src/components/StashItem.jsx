@@ -84,7 +84,7 @@ function StashItem({ repository, stash, index }) {
   return (
     <div 
       className={classNames(
-        'mx-4 mr-6 mb-1.5 bg-white/8 rounded-md border border-white/10',
+        'mx-4 mr-6 mb-1.5 bg-white/8 border border-white/10',
         'transition-all duration-200 relative flex items-center overflow-hidden group',
         'hover:bg-white/15 hover:border-white/20 hover:translate-x-1',
         "before:content-[''] before:absolute before:-left-2.5 before:top-1/2",

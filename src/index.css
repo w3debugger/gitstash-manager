@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import "tailwindcss/theme" theme(reference);
+@import "tailwindcss/utilities";
 
 /* Global styles for the app */
 * {

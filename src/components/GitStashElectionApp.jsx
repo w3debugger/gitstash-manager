@@ -149,7 +149,7 @@ function GitStashElectionApp() {
       >
         <Sidebar />
         <div 
-          className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
+          className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
           onMouseDown={(e) => handleResizeStart('sidebar', e)}
           title="Drag to resize sidebar"
           data-id="sidebar-resize-handle"
@@ -165,7 +165,7 @@ function GitStashElectionApp() {
         <FilesSidebar />
         {selectedRepository && selectedStash !== null && (
           <div 
-            className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
+            className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
             onMouseDown={(e) => handleResizeStart('filesSidebar', e)}
             title="Drag to resize files panel"
             data-id="files-sidebar-resize-handle"

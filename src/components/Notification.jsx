@@ -12,7 +12,7 @@ function Notification() {
   return (
     <div 
       className={classNames(
-        'fixed top-5 right-5 py-4 px-6 rounded-lg text-white font-bold',
+        'fixed top-5 right-5 py-4 px-6 text-white font-bold',
         'z-[1000] transform translate-x-96 transition-transform duration-300',
         'shadow-lg cursor-pointer',
         {
