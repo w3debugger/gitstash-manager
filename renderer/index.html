@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Stash Election</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar for repositories and stashes -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>🗳️ Git Stash Election</h2>
+                <button id="add-repo-btn" class="add-repo-btn" title="Add Repository">
+                    ➕
+                </button>
+            </div>
+            
+            <div class="repositories-section">
+                <h3>Repositories</h3>
+                <div id="repositories-list" class="repositories-list">
+                    <div class="empty-repositories">
+                        <div class="empty-icon">📁</div>
+                        <p>No repositories added</p>
+                        <button id="add-first-repo" class="add-first-repo">Add Repository</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stashes-section" id="sidebar-stashes-section" style="display: none;">
+                <div class="stashes-header">
+                    <h3>🏆 Stash Candidates</h3>
+                    <button id="refresh-stashes-btn" class="refresh-stashes-btn" title="Refresh Stashes">
+                        🔄
+                    </button>
+                </div>
+                <div id="sidebar-stash-list" class="sidebar-stash-list">
+                    <div class="loading-stashes">Loading stashes...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Files sidebar -->
+        <div class="files-sidebar" id="files-sidebar" style="display: none;">
+            <!-- Repository status section -->
+            <div class="status-section">
+                <div class="status-header">
+                    <h3>📊 Repository Status</h3>
+                </div>
+                <div id="repo-status" class="status-content">
+                    Loading repository status...
+                </div>
+            </div>
+
+            <!-- Files section -->
+            <div class="files-section">
+                <div class="files-header">
+                    <h3>📁 Changed Files</h3>
+                    <span id="files-count" class="files-count">0 files</span>
+                </div>
+                <div id="files-list" class="files-list">
+                    <div class="loading-files">Select a stash to view files</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <!-- Repository header -->
+            <div class="repo-header" id="repo-header" style="display: none;">
+                <div class="repo-info">
+                    <h1 id="current-repo-name">Select a Repository</h1>
+                    <p id="current-repo-path">Choose a repository from the sidebar to view its stashes</p>
+                </div>
+                <div class="repo-actions">
+                    <button id="refresh-btn" class="refresh-btn">
+                        🔄 Refresh All
+                    </button>
+                </div>
+            </div>
+
+
+
+            <!-- Stash details view -->
+            <div class="stash-details-view" id="stash-details-view" style="display: none;">
+                <div id="stash-details" class="details-content">
+                    👈 Select a stash from the sidebar to view its changes
+                </div>
+            </div>
+
+            <!-- Welcome screen -->
+            <div class="welcome-screen" id="welcome-screen">
+                <div class="welcome-content">
+                    <div class="welcome-icon">🗳️</div>
+                    <h2>Welcome to Git Stash Election!</h2>
+                    <p>A desktop app for managing git stashes across multiple repositories</p>
+                    <div class="welcome-actions">
+                        <button id="welcome-add-repo" class="welcome-btn">
+                            ➕ Add Your First Repository
+                        </button>
+                    </div>
+                    <div class="welcome-features">
+                        <div class="feature">
+                            <span class="feature-icon">📂</span>
+                            <span>Manage multiple repositories</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🏆</span>
+                            <span>Election-style stash browsing</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">⚡</span>
+                            <span>Quick apply and drop actions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

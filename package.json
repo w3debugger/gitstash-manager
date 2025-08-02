@@ -1,21 +1,45 @@
 {
   "name": "git-stash-election",
   "version": "1.0.0",
-  "description": "An election-style interface for viewing and managing git stashes",
-  "main": "server.js",
+  "description": "An Electron desktop app for viewing and managing git stashes across multiple repositories",
+  "main": "main.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "dist": "electron-builder --publish=never"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "simple-git": "^3.19.1",
-    "cors": "^2.8.5"
+    "electron-store": "^8.1.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "electron": "^28.0.0",
+    "electron-builder": "^24.6.4"
   },
-  "keywords": ["git", "stash", "election", "voting"],
+  "build": {
+    "appId": "com.gitstash.election",
+    "productName": "Git Stash Election",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "node_modules/**/*"
+    ],
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "keywords": ["git", "stash", "election", "voting", "electron", "desktop"],
   "author": "",
   "license": "MIT"
 }
