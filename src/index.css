@@ -1,5 +1,5 @@
-/* Import existing styles from renderer-backup/styles.css */
-@import url('../renderer-backup/styles.css');
+/* Import existing styles */
+@import url('./styles.css');
 
 /* Additional React-specific styles if needed */
 #root {
