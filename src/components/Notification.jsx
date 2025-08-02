@@ -16,6 +16,8 @@ function Notification() {
         type === 'info' ? 'bg-blue-500' : 'bg-gray-600'
       } ${notification ? 'translate-x-0' : ''}`}
       onClick={clearNotification}
+      data-id="notification"
+      data-type={type}
     >
       {message}
     </div>

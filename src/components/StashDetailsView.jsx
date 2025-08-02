@@ -71,12 +71,12 @@ function StashDetailsView() {
   const shouldShow = selectedRepository && selectedStash !== null
 
   return (
-    <div className="flex-1 m-0 bg-white flex flex-col overflow-hidden p-5" style={{ display: shouldShow ? 'flex' : 'none' }}>
-      <div className="flex-1 overflow-auto bg-gray-50 rounded-lg p-5 font-mono text-sm leading-relaxed border">
+    <div className="flex-1 m-0 bg-white flex flex-col overflow-hidden p-5" style={{ display: shouldShow ? 'flex' : 'none' }} data-id="stash-details-view">
+      <div className="flex-1 overflow-auto bg-gray-50 rounded-lg p-5 font-mono text-sm leading-relaxed border" data-id="stash-content-display">
         {loading ? (
-          <div className="flex items-center justify-center h-full text-slate-500">Loading...</div>
+          <div className="flex items-center justify-center h-full text-slate-500" data-id="stash-content-loading">Loading...</div>
         ) : (
-          <pre className="whitespace-pre-wrap break-words text-slate-800">{content}</pre>
+          <pre className="whitespace-pre-wrap break-words text-slate-800" data-id="stash-content-text">{content}</pre>
         )}
       </div>
     </div>

@@ -35,7 +35,7 @@ function FilesList({ files }) {
 
   if (files.length === 0) {
     return (
-      <div className="flex-1 overflow-y-auto p-4 min-h-[200px]">
+      <div className="flex-1 overflow-y-auto p-4 min-h-[200px]" data-id="files-list-empty">
         <div className="text-center py-8 text-slate-500 italic">
           Select a stash to view files
         </div>
@@ -44,7 +44,7 @@ function FilesList({ files }) {
   }
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 min-h-[200px]">
+    <div className="flex-1 overflow-y-auto p-4 min-h-[200px]" data-id="files-list">
       {files.map((file, index) => (
         <div 
           key={`${file.filename}-${index}`}
@@ -52,6 +52,7 @@ function FilesList({ files }) {
             selectedFile?.filename === file.filename ? 'shadow-md border-blue-400 bg-blue-50 -translate-y-0.5' : ''
           }`}
           onClick={() => selectFile(file)}
+          data-id={`file-item-${index}`}
         >
           <div className="text-lg mr-3 flex-shrink-0">{file.statusIcon}</div>
           <div className="flex-1 min-w-0">

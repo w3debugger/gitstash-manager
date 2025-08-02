@@ -86,6 +86,7 @@ function StashItem({ repository, stash, index }) {
         isSelected ? 'bg-white/25 border-white/40 shadow-lg shadow-black/20' : ''
       }`}
       onClick={selectStash}
+      data-id={`stash-item-${repository.id}-${index}`}
     >
       <div className="flex-1 py-2.5 px-3 cursor-pointer min-w-0 overflow-hidden">
         <div className="font-medium text-sm leading-tight mb-1 text-white/90 break-words overflow-hidden" style={{
@@ -104,6 +105,7 @@ function StashItem({ repository, stash, index }) {
           className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-green-600/80 hover:border-green-500" 
           title="Apply Stash"
           onClick={applyStash}
+          data-id={`apply-stash-btn-${repository.id}-${index}`}
         >
           ✅
         </button>
@@ -111,6 +113,7 @@ function StashItem({ repository, stash, index }) {
           className="w-7 h-6 border border-white/20 rounded bg-white/10 cursor-pointer transition-all duration-200 text-xs flex items-center justify-center text-white hover:scale-105 hover:shadow-md hover:shadow-black/30 hover:bg-red-600/80 hover:border-red-500" 
           title="Drop Stash"
           onClick={dropStash}
+          data-id={`drop-stash-btn-${repository.id}-${index}`}
         >
           🗑️
         </button>

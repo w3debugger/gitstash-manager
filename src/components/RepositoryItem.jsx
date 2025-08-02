@@ -76,8 +76,8 @@ function RepositoryItem({ repository }) {
   return (
     <div className={`mx-4 mb-2 rounded-lg bg-white/5 border border-white/10 overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/20 ${
       isExpanded ? 'bg-white/15 border-white/25 shadow-lg shadow-black/20' : ''
-    } ${isSelected ? 'ring-2 ring-white/30' : ''}`}>
-      <div className="flex items-center py-3 px-4 cursor-pointer transition-all duration-200 hover:bg-white/10 relative group" onClick={toggleRepository}>
+    } ${isSelected ? 'ring-2 ring-white/30' : ''}`} data-id={`repository-item-${repository.id}`}>
+      <div className="flex items-center py-3 px-4 cursor-pointer transition-all duration-200 hover:bg-white/10 relative group" onClick={toggleRepository} data-id={`repository-header-${repository.id}`}>
         <div className="flex-1 min-w-0 overflow-hidden">
           <div className="font-semibold text-sm mb-1 flex items-center gap-2 text-white/95">
             📂 {repository.name}
@@ -89,6 +89,7 @@ function RepositoryItem({ repository }) {
             className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-blue-500/80 hover:scale-110" 
             title="Refresh Repository"
             onClick={refreshRepository}
+            data-id={`refresh-repository-btn-${repository.id}`}
           >
             🔄
           </button>
@@ -96,6 +97,7 @@ function RepositoryItem({ repository }) {
             className="bg-white/10 border-none text-white w-6 h-6 rounded cursor-pointer text-xs transition-all duration-200 flex items-center justify-center hover:bg-red-500/80 hover:scale-110" 
             title="Remove Repository"
             onClick={removeRepository}
+            data-id={`remove-repository-btn-${repository.id}`}
           >
             ✖️
           </button>
@@ -103,7 +105,7 @@ function RepositoryItem({ repository }) {
       </div>
       
       {isExpanded && (
-        <div className="py-2.5">
+        <div className="py-2.5" data-id={`repository-stashes-${repository.id}`}>
           <StashList 
             repository={repository}
             stashes={stashes}

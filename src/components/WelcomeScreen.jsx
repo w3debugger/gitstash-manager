@@ -10,7 +10,7 @@ function WelcomeScreen() {
   }
 
   return (
-    <div className="flex-1 flex items-center justify-center p-10">
+    <div className="flex-1 flex items-center justify-center p-10" data-id="welcome-screen">
       <div className="text-center max-w-lg">
         <div className="text-6xl mb-5">🗳️</div>
         <h2 className="text-4xl text-slate-700 mb-4 font-semibold">Welcome to Git Stash Election!</h2>
@@ -19,6 +19,7 @@ function WelcomeScreen() {
           <button 
             className="bg-gradient-to-br from-purple-500 to-purple-700 text-white border-none py-4 px-8 rounded-full text-lg font-semibold cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-500/30"
             onClick={addRepository}
+            data-id="add-first-repository-welcome-btn"
           >
             ➕ Add Your First Repository
           </button>

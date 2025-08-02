@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { useApp } from '../context/AppContext'
 import Sidebar from './Sidebar'
 import FilesSidebar from './FilesSidebar'
-import MainContent from './MainContent'
 import Notification from './Notification'
+import WelcomeScreen from './WelcomeScreen'
+import StashDetailsView from './StashDetailsView'
 
 function GitStashElectionApp() {
   const { 
+    repositories,
     setRepositories, 
     showNotification, 
     selectedRepository,
@@ -138,17 +140,19 @@ function GitStashElectionApp() {
   }, [selectedRepository, selectedStash])
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden" data-id="git-stash-app">
       <div 
         ref={sidebarRef}
         className="relative bg-gradient-to-br from-purple-500 to-purple-700 text-white flex flex-col border-r border-white/10 overflow-visible min-w-[200px] max-w-[600px]"
         style={{ width: `${sidebarWidth}px` }}
+        data-id="sidebar-container"
       >
         <Sidebar />
         <div 
           className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
           onMouseDown={(e) => handleResizeStart('sidebar', e)}
           title="Drag to resize sidebar"
+          data-id="sidebar-resize-handle"
         />
       </div>
       
@@ -156,6 +160,7 @@ function GitStashElectionApp() {
         ref={filesSidebarRef}
         className="relative bg-gray-50 border-r border-gray-200 overflow-visible min-w-0 max-w-[500px]"
         style={{ width: selectedRepository && selectedStash !== null ? `${filesSidebarWidth}px` : '0px' }}
+        data-id="files-sidebar-container"
       >
         <FilesSidebar />
         {selectedRepository && selectedStash !== null && (
@@ -163,12 +168,17 @@ function GitStashElectionApp() {
             className="absolute top-0 bottom-0 -right-1 w-2.5 bg-blue-400/80 cursor-col-resize z-[10000] transition-colors duration-100 rounded-sm pointer-events-auto before:content-[''] before:absolute before:top-1/2 before:left-1/2 before:transform before:-translate-x-1/2 before:-translate-y-1/2 before:w-0.5 before:h-5 before:bg-white/80 before:rounded-sm hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-400/50 active:bg-blue-600 active:shadow-xl active:shadow-blue-400/70"
             onMouseDown={(e) => handleResizeStart('filesSidebar', e)}
             title="Drag to resize files panel"
+            data-id="files-sidebar-resize-handle"
           />
         )}
       </div>
       
-      <div className="flex-1 overflow-hidden bg-white">
-        <MainContent />
+      <div className="flex-1 overflow-hidden bg-white" data-id="main-content-container">
+        {repositories?.length > 0 ? (
+          <StashDetailsView />
+        ) : (
+          <WelcomeScreen />
+        )}
       </div>
       
       <Notification />
