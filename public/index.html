@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Stash Election - Choose Your Stash!</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗳️ Git Stash Election</h1>
+            <p>Vote for your favorite stash and see what's inside!</p>
+        </header>
+
+        <div class="status-panel">
+            <h2>📊 Repository Status</h2>
+            <div id="repo-status" class="status-content">
+                Loading repository status...
+            </div>
+            <button id="refresh-btn" class="refresh-btn">🔄 Refresh</button>
+        </div>
+
+        <div class="election-panel">
+            <h2>🏆 Stash Candidates</h2>
+            <div id="stash-list" class="candidates-grid">
+                Loading stashes...
+            </div>
+        </div>
+
+        <div class="results-panel">
+            <h2>📋 Selected Stash Details</h2>
+            <div id="stash-details" class="details-content">
+                Select a stash to view its contents
+            </div>
+        </div>
+
+        <div class="voting-panel">
+            <h2>🎯 Actions</h2>
+            <div class="action-buttons">
+                <button id="apply-btn" class="action-btn apply" disabled>
+                    ✅ Apply Selected Stash
+                </button>
+                <button id="drop-btn" class="action-btn drop" disabled>
+                    🗑️ Drop Selected Stash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
