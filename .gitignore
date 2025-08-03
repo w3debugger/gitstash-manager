@@ -52,3 +52,6 @@ app/node_modules/
 *.exe
 *.deb
 *.rpm
+
+# yarn.lock
+yarn.lock
