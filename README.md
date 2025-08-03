@@ -20,6 +20,50 @@ A modern Electron desktop application for managing git stashes across multiple r
 - **🎨 Modern UI** - Clean, responsive interface built with React 19 and Tailwind CSS v4
 - **⚡ Optimized Performance** - React 19 features with automatic batching and optimized state management
 
+## 📥 Downloads
+
+### 🚀 Latest Release: v1.0.0
+*Clean git workflows made beautiful*
+
+---
+
+### 🍎 **macOS**
+Choose your Mac architecture for optimal performance:
+
+| **Apple Silicon** | **Intel Mac** |
+|:---:|:---:|
+| ![Apple Silicon](https://img.shields.io/badge/M1%2FM2%2FM3-Ready-FF6B35?style=for-the-badge&logo=apple) | ![Intel](https://img.shields.io/badge/Intel-Compatible-0071C5?style=for-the-badge&logo=intel) |
+| [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-arm64.dmg) | [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.dmg) |
+| `106 MB` | `111 MB` |
+
+---
+
+### 🪟 **Windows**
+*Compatible with Windows 10 & 11*
+
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=for-the-badge&logo=windows)
+
+[**📦 Download Installer**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.exe)
+
+`84 MB • 64-bit`
+
+---
+
+### 🐧 **Linux**
+*Universal AppImage - works on any distribution*
+
+![Linux](https://img.shields.io/badge/Linux-Universal-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+[**🔥 Download AppImage**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/gitstash-manager-1.0.0.AppImage)
+
+`113 MB • No installation required`
+
+**Quick Setup:**
+```bash
+# Make executable and run
+chmod +x gitstash-manager-1.0.0.AppImage
+./gitstash-manager-1.0.0.AppImage
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -30,7 +74,7 @@ A modern Electron desktop application for managing git stashes across multiple r
 
 ```bash
 # Clone the repository
-git clone <your-repo-url>
+git clone https://github.com/w3debugger/gitstash-manager.git
 cd gitstash-manager
 
 # Install dependencies
