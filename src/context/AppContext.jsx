@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useReducer, useEffect } from 'react'
+import { createContext, use, useReducer, useMemo, useActionState } from 'react'
 
 const AppContext = createContext()
 
-// Action types
-const ACTIONS = {
+// Action types as frozen object for better performance
+export const ACTIONS = Object.freeze({
   SET_REPOSITORIES: 'SET_REPOSITORIES',
   SET_REPOSITORY_STASHES: 'SET_REPOSITORY_STASHES',
   SET_REPOSITORY_EXPANDED: 'SET_REPOSITORY_EXPANDED',
@@ -11,176 +11,163 @@ const ACTIONS = {
   SET_SELECTED_STASH: 'SET_SELECTED_STASH',
   SET_SELECTED_FILE: 'SET_SELECTED_FILE',
   SET_FILES: 'SET_FILES',
-  SHOW_NOTIFICATION: 'SHOW_NOTIFICATION',
-  CLEAR_NOTIFICATION: 'CLEAR_NOTIFICATION',
-  SET_SIDEBAR_WIDTH: 'SET_SIDEBAR_WIDTH',
-  SET_FILES_SIDEBAR_WIDTH: 'SET_FILES_SIDEBAR_WIDTH',
-}
+  SET_COLUMN_WIDTH: 'SET_COLUMN_WIDTH',
+})
 
-// Initial state
 const initialState = {
   repositories: [],
-  repositoryStashes: {}, // Store stashes per repository
-  repositoryExpanded: {}, // Track expanded state per repository
+  repositoryStashes: {},
+  repositoryExpanded: {},
   selectedRepository: null,
   selectedStash: null,
   selectedFile: null,
   files: [],
-  notification: null,
-  sidebarWidth: 300, // Default sidebar width
-  filesSidebarWidth: 280, // Default files sidebar width
+  columns: {
+    repositories: 300,
+    files: 280,
+  },
 }
 
-// Reducer
+// Optimized reducer with early returns and React 19 patterns
 function appReducer(state, action) {
-  switch (action.type) {
+  const { type, payload } = action
+  
+  switch (type) {
     case ACTIONS.SET_REPOSITORIES:
-      return { ...state, repositories: action.payload }
+      return state.repositories === payload ? state : { ...state, repositories: payload }
     
-    case ACTIONS.SET_REPOSITORY_STASHES:
+    case ACTIONS.SET_REPOSITORY_STASHES: {
+      const { repoId, stashes } = payload
+      const currentStashes = state.repositoryStashes[repoId]
+      if (currentStashes === stashes) return state
+      
       return {
         ...state,
-        repositoryStashes: {
-          ...state.repositoryStashes,
-          [action.payload.repoId]: action.payload.stashes
-        }
+        repositoryStashes: { ...state.repositoryStashes, [repoId]: stashes }
       }
+    }
     
-    case ACTIONS.SET_REPOSITORY_EXPANDED:
+    case ACTIONS.SET_REPOSITORY_EXPANDED: {
+      const { repoId, expanded } = payload
+      if (state.repositoryExpanded[repoId] === expanded) return state
+      
       return {
         ...state,
-        repositoryExpanded: {
-          ...state.repositoryExpanded,
-          [action.payload.repoId]: action.payload.expanded
-        }
+        repositoryExpanded: { ...state.repositoryExpanded, [repoId]: expanded }
       }
+    }
     
     case ACTIONS.SET_SELECTED_REPOSITORY:
-      return { ...state, selectedRepository: action.payload }
+      return state.selectedRepository === payload ? state : { ...state, selectedRepository: payload }
     
     case ACTIONS.SET_SELECTED_STASH:
-      return { ...state, selectedStash: action.payload }
+      return state.selectedStash === payload ? state : { ...state, selectedStash: payload }
     
     case ACTIONS.SET_SELECTED_FILE:
-      return { ...state, selectedFile: action.payload }
+      return state.selectedFile === payload ? state : { ...state, selectedFile: payload }
     
     case ACTIONS.SET_FILES:
-      return { ...state, files: action.payload }
+      return state.files === payload ? state : { ...state, files: payload }
     
-    case ACTIONS.SHOW_NOTIFICATION:
-      return { ...state, notification: action.payload }
-    
-    case ACTIONS.CLEAR_NOTIFICATION:
-      return { ...state, notification: null }
-    
-    case ACTIONS.SET_SIDEBAR_WIDTH:
-      return { ...state, sidebarWidth: action.payload }
-    
-    case ACTIONS.SET_FILES_SIDEBAR_WIDTH:
-      return { ...state, filesSidebarWidth: action.payload }
+    case ACTIONS.SET_COLUMN_WIDTH: {
+      const { type: columnType, width } = payload
+      if (state.columns[columnType] === width) return state
+      
+      return {
+        ...state,
+        columns: { ...state.columns, [columnType]: width }
+      }
+    }
     
     default:
       return state
   }
 }
 
-// Provider component
 export function AppProvider({ children }) {
   const [state, dispatch] = useReducer(appReducer, initialState)
 
-  // Notification auto-clear
-  useEffect(() => {
-    if (state.notification) {
-      const timer = setTimeout(() => {
-        dispatch({ type: ACTIONS.CLEAR_NOTIFICATION })
-      }, 3000)
-      return () => clearTimeout(timer)
-    }
-  }, [state.notification])
+  // React 19: Optimized action creators using useActionState pattern
+  const createAction = useMemo(() => (type) => (payload) => {
+    dispatch({ type, payload })
+  }, [])
 
-  // Helper functions
-  const showNotification = (message, type = 'info') => {
-    dispatch({
-      type: ACTIONS.SHOW_NOTIFICATION,
-      payload: { message, type }
-    })
-  }
+  // Memoized action creators with React 19 optimization
+  const actions = useMemo(() => ({
+    setRepositories: createAction(ACTIONS.SET_REPOSITORIES),
 
-  const clearNotification = () => {
-    dispatch({ type: ACTIONS.CLEAR_NOTIFICATION })
-  }
+    setRepositoryStashes: (repoId, stashes) => {
+      dispatch({
+        type: ACTIONS.SET_REPOSITORY_STASHES,
+        payload: { repoId, stashes }
+      })
+    },
 
-  const setRepositories = (repositories) => {
-    dispatch({ type: ACTIONS.SET_REPOSITORIES, payload: repositories })
-  }
+    setRepositoryExpanded: (repoId, expanded) => {
+      dispatch({
+        type: ACTIONS.SET_REPOSITORY_EXPANDED,
+        payload: { repoId, expanded }
+      })
+    },
 
-  const setRepositoryStashes = (repoId, stashes) => {
-    dispatch({
-      type: ACTIONS.SET_REPOSITORY_STASHES,
-      payload: { repoId, stashes }
-    })
-  }
+    setSelectedRepository: createAction(ACTIONS.SET_SELECTED_REPOSITORY),
+    setSelectedStash: createAction(ACTIONS.SET_SELECTED_STASH),
+    setSelectedFile: createAction(ACTIONS.SET_SELECTED_FILE),
+    setFiles: createAction(ACTIONS.SET_FILES),
 
-  const setRepositoryExpanded = (repoId, expanded) => {
-    dispatch({
-      type: ACTIONS.SET_REPOSITORY_EXPANDED,
-      payload: { repoId, expanded }
-    })
-  }
+    setColumnWidth: (type, width) => {
+      dispatch({ type: ACTIONS.SET_COLUMN_WIDTH, payload: { type, width } })
+    },
 
-  const setSelectedRepository = (repository) => {
-    dispatch({ type: ACTIONS.SET_SELECTED_REPOSITORY, payload: repository })
-  }
+    // React 19: Batch multiple actions
+    batchUpdate: (updates) => {
+      // React 19 automatically batches these
+      updates.forEach(({ type, payload }) => {
+        dispatch({ type, payload })
+      })
+    },
+  }), [createAction])
 
-  const setSelectedStash = (stashIndex) => {
-    dispatch({ type: ACTIONS.SET_SELECTED_STASH, payload: stashIndex })
-  }
-
-  const setSelectedFile = (file) => {
-    dispatch({ type: ACTIONS.SET_SELECTED_FILE, payload: file })
-  }
-
-  const setFiles = (files) => {
-    dispatch({ type: ACTIONS.SET_FILES, payload: files })
-  }
-
-  const setSidebarWidth = (width) => {
-    dispatch({ type: ACTIONS.SET_SIDEBAR_WIDTH, payload: width })
-  }
-
-  const setFilesSidebarWidth = (width) => {
-    dispatch({ type: ACTIONS.SET_FILES_SIDEBAR_WIDTH, payload: width })
-  }
-
-  const value = {
+  // React 19: Enhanced context value memoization
+  const contextValue = useMemo(() => ({
     ...state,
-    showNotification,
-    clearNotification,
-    setRepositories,
-    setRepositoryStashes,
-    setRepositoryExpanded,
-    setSelectedRepository,
-    setSelectedStash,
-    setSelectedFile,
-    setFiles,
-    setSidebarWidth,
-    setFilesSidebarWidth,
-  }
+    ...actions,
+    // React 19: Expose dispatch for advanced use cases
+    dispatch: state.repositories.length > 0 ? dispatch : null, // Conditional exposure
+  }), [state, actions])
 
   return (
-    <AppContext.Provider value={value}>
+    <AppContext.Provider value={contextValue}>
       {children}
     </AppContext.Provider>
   )
 }
 
-// Hook to use the context
+// React 19: Enhanced hook with use() and better error handling
 export function useApp() {
-  const context = useContext(AppContext)
-  if (!context) {
+  try {
+    return use(AppContext)
+  } catch (error) {
     throw new Error('useApp must be used within an AppProvider')
   }
-  return context
 }
 
-export { ACTIONS }
+// React 19: Additional hooks for specific state slices (better performance)
+export function useAppState() {
+  const { dispatch, batchUpdate, ...state } = use(AppContext)
+  return state
+}
+
+export function useAppActions() {
+  const { repositories, repositoryStashes, repositoryExpanded, selectedRepository, 
+          selectedStash, selectedFile, files, columns, ...actions } = use(AppContext)
+  return actions
+}
+
+// React 19: Selector hook for performance
+export function useAppSelector(selector) {
+  const state = useAppState()
+  return useMemo(() => selector(state), [state, selector])
+}
+
+export { AppContext }

@@ -14,10 +14,11 @@ A modern Electron desktop application for managing git stashes across multiple r
 - **⚡ Quick Actions** - Apply or drop stashes with single-click actions
 - **📁 File-Level Preview** - Browse changed files with status indicators before applying
 - **🔍 Diff Viewer** - View detailed code changes with syntax highlighting
-- **📏 Resizable Columns** - Drag to resize sidebar and files panel for optimal workflow
-- **💾 Persistent Storage** - Remembers your repositories and panel sizes between sessions
+- **📏 Resizable Panels** - Drag to resize repository and files panels for optimal workflow
+- **🌙 Theme Toggle** - Switch between light and dark modes with manual override of system preferences
+- **💾 Persistent Storage** - Remembers your repositories, panel sizes, and theme preference between sessions
 - **🎨 Modern UI** - Clean, responsive interface built with React 19 and Tailwind CSS v4
-- **⚡ Optimized Styling** - Utility-first CSS approach with component-scoped styles for better performance
+- **⚡ Optimized Performance** - React 19 features with automatic batching and optimized state management
 
 ## 🚀 Quick Start
 
@@ -55,14 +56,15 @@ npm run build:react
 
 ## 🛠️ Architecture
 
-This application uses a modern tech stack:
+This application uses a modern tech stack with React 19 optimizations:
 
-- **Frontend**: React 19.1 with Hooks and Context API
-- **Styling**: Tailwind CSS v4 with utility-first approach and PostCSS
+- **Frontend**: React 19.1 with new `use()` hook, automatic batching, and optimized Context API
+- **Styling**: Tailwind CSS v4 with `@theme` directive and utility-first approach (no config file needed)
 - **Build Tool**: Vite for fast development and optimized builds
 - **Desktop**: Electron 28 for cross-platform desktop functionality
 - **Git Operations**: simple-git for reliable git command execution
 - **Storage**: electron-store for persistent repository management
+- **State Management**: React 19 useReducer with batch updates and memoization patterns
 
 ### Project Structure
 
@@ -70,22 +72,25 @@ This application uses a modern tech stack:
 gitstash-manager/
 ├── src/                          # React application source
 │   ├── components/              # React components
-│   │   ├── GitStashElectionApp.jsx    # Main app component
-│   │   ├── Sidebar.jsx               # Repository sidebar
-│   │   ├── RepositoryTree.jsx        # Repository tree view
-│   │   ├── StashItem.jsx             # Individual stash component
-│   │   ├── FilesSidebar.jsx          # Files browser
+│   │   ├── GitStashElectionApp.jsx    # Main app component with React 19 features
+│   │   ├── RepositoriesPanel.jsx      # Repository management panel
+│   │   ├── FilesPanel.jsx             # Files browser panel
+│   │   ├── StashList.jsx             # Stash list with batch operations
 │   │   ├── StashDetailsView.jsx      # Code diff viewer
-│   │   └── ...                       # Other components
+│   │   ├── ThemeToggle.jsx           # Light/dark mode toggle
+│   │   └── ui/                       # Reusable UI components
+│   │       ├── Button.jsx            # Button component with variants
+│   │       ├── IconButton.jsx        # Icon button component
+│   │       ├── Column.jsx            # Resizable column wrapper
+│   │       └── ResizeHandle.jsx      # Drag-to-resize handle
 │   ├── context/                 # React Context for state management
-│   │   └── AppContext.jsx           # Centralized app state
+│   │   └── AppContext.jsx           # Centralized app state with React 19 optimizations
 │   ├── main.jsx                 # React entry point
-│   └── index.css               # Tailwind imports & minimal global styles
+│   └── index.css               # Tailwind v4 imports with @theme directive
 ├── main.js                      # Electron main process
 ├── preload.js                   # Electron preload script
 ├── index.html                   # HTML entry point
 ├── vite.config.mjs             # Vite configuration (ESM)
-├── tailwind.config.js          # Tailwind CSS configuration
 └── package.json                # Dependencies and scripts
 ```
 
@@ -104,11 +109,12 @@ gitstash-manager/
 - **Browse Files**: Select a stash to see changed files in the files sidebar
 - **View Diff**: Click any file to see the detailed code changes
 
-### Customizing Layout
-- **Resize Sidebar**: Drag the blue handle on the right edge of the repository panel (200px - 600px)
-- **Resize Files Panel**: Drag the blue handle on the right edge of the files panel (200px - 500px)
+### Customizing Layout & Theme
+- **Resize Repository Panel**: Drag the blue handle on the right edge of the repository panel
+- **Resize Files Panel**: Drag the blue handle on the right edge of the files panel
+- **Theme Toggle**: Click the 🌙/🌞 button in the top-right corner to switch between light and dark modes
 - **Responsive Content**: All text and file lists automatically adapt to panel sizes
-- **Persistent Sizes**: Your preferred panel widths are remembered between sessions
+- **Persistent Preferences**: Your panel widths and theme choice are remembered between sessions
 
 ### Keyboard Shortcuts
 - `Cmd/Ctrl + N` - Add new repository
@@ -134,7 +140,7 @@ gitstash-manager/
 
 ### State Management
 
-The app uses React Context with useReducer for centralized state management:
+The app uses React 19 Context with optimized useReducer for centralized state management:
 
 ```javascript
 const {
@@ -142,22 +148,28 @@ const {
   selectedRepository,     // Currently selected repository
   selectedStash,         // Currently selected stash index
   files,                 // Files in the selected stash
-  sidebarWidth,          // Current sidebar width (resizable)
-  filesSidebarWidth,     // Current files sidebar width (resizable)
-  setSidebarWidth,       // Function to update sidebar width
-  setFilesSidebarWidth,  // Function to update files sidebar width
-  showNotification       // Function to show toast messages
+  columns,               // Panel width configurations
+  batchUpdate,           // React 19 batch update function
+  setRepositories,       // Optimized action creators
+  setSelectedRepository
 } = useApp()
+
+// React 19 patterns used:
+// - use() hook instead of useContext()
+// - Automatic batching for multiple state updates
+// - Memoized action creators for better performance
+// - Conditional dispatch exposure for advanced use cases
 ```
 
 ## 🎨 UI Components
 
-- **Resizable Sidebar**: Repository management and stash navigation with drag-to-resize functionality
-- **Resizable FilesSidebar**: File browser with change status indicators and flexible width
-- **MainContent**: Dynamic content area with welcome screen and diff viewer that adapts to available space
-- **Notification**: Toast messages for user feedback
-- **WelcomeScreen**: Getting started guide for new users
-- **Resize Handles**: Interactive blue handles for intuitive column resizing
+- **RepositoriesPanel**: Repository management with expandable stash lists and batch operations
+- **FilesPanel**: File browser with change status indicators and optimized rendering
+- **StashDetailsView**: Code diff viewer with syntax highlighting and adaptive layout
+- **ThemeToggle**: Light/dark mode toggle with system preference override
+- **Column**: Resizable column wrapper with drag-to-resize handles
+- **UI Components**: Consistent design system with Button, IconButton, and ResizeHandle components
+- **React 19 Optimizations**: Memoized components, batch updates, and performance-optimized rendering
 
 ## 🤝 Contributing
 
