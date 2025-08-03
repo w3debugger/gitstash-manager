@@ -142,13 +142,34 @@ const LoadingState = () => (
   </div>
 )
 
-const ContentText = ({ content }) => (
-  <pre 
-    className="whitespace-pre-wrap break-words text-on-surface" 
-    data-id="stash-content-text"
-  >
-    {content}
-  </pre>
-)
+const ContentText = ({ content }) => {
+  // Split content into lines and process each line
+  const lines = content.split('\n')
+  
+  return (
+    <pre 
+      className="whitespace-pre-wrap break-words text-on-surface font-mono" 
+      data-id="stash-content-text"
+    >
+      {lines.map((line, index) => {
+        // Determine line type (added, removed, or normal)
+        const isAddedLine = line.startsWith('+')
+        const isRemovedLine = line.startsWith('-')
+        
+        // Style based on line type
+        const lineStyle = isAddedLine ? 'text-[var(--color-diff-added)]' 
+          : isRemovedLine ? 'text-[var(--color-diff-removed)]'
+          : 'text-on-surface'
+          
+        return (
+          <div key={index} className={`${lineStyle} flex`}>
+            <span className="w-12 text-right pr-4 text-gray-500 select-none">{index + 1}</span>
+            <span>{line}</span>
+          </div>
+        )
+      })}
+    </pre>
+  )
+}
 
 export default StashDetailsView

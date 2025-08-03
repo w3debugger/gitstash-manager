@@ -13,6 +13,10 @@
   --color-on-surface: #000000;
   --color-on-surface-variant: #6b7280;
   
+  /* Diff colors */
+  --color-diff-added: #22c55e;
+  --color-diff-removed: #ef4444;
+  
   /* Interactive states */
   --color-hover: #f3f4f6;
   --color-active: #e5e7eb;
@@ -51,6 +55,10 @@
   --color-surface-variant: #1f2937;
   --color-on-surface: #ffffff;
   --color-on-surface-variant: #9ca3af;
+  
+  /* Diff colors - slightly adjusted for dark mode */
+  --color-diff-added: #4ade80;
+  --color-diff-removed: #f87171;
   
   --color-hover: #374151;
   --color-active: #4b5563;
