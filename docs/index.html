@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>GitStash Manager - The Ultimate Git Stash Management Tool | Download Free</title>
+   <meta name="description" content="Streamline your Git workflow with GitStash Manager. Manage stashes across multiple repositories with an intuitive interface. Download free for Windows, macOS, and Linux.">
+   <meta name="keywords" content="git stash, git manager, version control, developer tools, git gui, stash management">
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@500&display=swap" rel="stylesheet">
+
+   <style>
+       :root {
+           --mono: 'SF Mono', 'Monaco', 'Cascadia Code', 'Roboto Mono', 'Courier New', monospace;
+           --space-xs: 0.5rem;
+           --space-sm: 1rem;
+           --space-md: 2rem;
+           --space-lg: 4rem;
+           --space-xl: 6rem;
+
+           --bg: #ffffff;
+           --bg-2: #f8f9fa;
+           --bg-3: #e9ecef;
+           --text: #000;
+           --text-dim: #6c757d;
+           --border: #dee2e6;
+           --accent: rgba(45, 90, 39, 0.2);
+       }
+
+       /* Dark theme (default) */
+       [data-theme*="dark"] {
+           --bg: #000;
+           --bg-2: #1a1a1a;
+           --bg-3: #2a2a2a;
+           --text: #fff;
+           --text-dim: #888;
+           --border: #333;
+           --accent: rgba(0, 255, 65, 0.2);
+       }
+
+       [data-theme="dark-green"] { --text: #00ff41; }
+       [data-theme="dark-blue"] { --text: #0041ff; }
+
+        [data-theme="light-green"] { --text: #03b930; }
+        [data-theme="light-blue"] { --text: #0433bf; }
+
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+       }
+
+       body {
+           font-family: "Google Sans Code", monospace;
+          font-optical-sizing: auto;
+          font-weight: 500;
+          font-style: normal;
+          font-display: swap;
+           line-height: 1.6;
+           color: var(--text);
+           background: var(--bg);
+           scroll-behavior: smooth;
+           font-size: 15px;
+           transition: background-color 0.3s ease, color 0.3s ease;
+       }
+
+       .container {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 0 var(--space-md);
+       }
+
+       .card {
+           border: 1px solid var(--border);
+           background: var(--bg-3);
+           padding: var(--space-md);
+           transition: all 0.2s ease;
+       }
+
+       .card:hover {
+           border-color: var(--text);
+       }
+
+       .icon {
+           width: 48px;
+           height: 48px;
+           background: var(--bg-2);
+           color: var(--text);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-size: 20px;
+           border: 1px solid var(--border);
+           margin: 0 auto var(--space-sm);
+       }
+
+       .btn {
+           display: inline-block;
+           padding: var(--space-sm) var(--space-md);
+           background: var(--text);
+           color: var(--bg);
+           text-decoration: none;
+           font-weight: 500;
+           border: 1px solid var(--text);
+           transition: all 0.2s ease;
+       }
+
+       .btn:hover {
+           background: transparent;
+           color: var(--text);
+       }
+
+       .grid {
+           display: grid;
+           gap: var(--space-md);
+       }
+
+       .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+       .grid-stats { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+
+       .text-center { text-align: center; }
+       .text-dim { color: var(--text-dim); }
+       .flex-between { display: flex; justify-content: space-between; align-items: center; }
+
+       /* Theme Switcher */
+       .theme-switcher {
+           position: fixed;
+           bottom: 20px;
+           right: 20px;
+           z-index: 1000;
+       }
+
+       .theme-toggle {
+        display: block;
+        background: var(--bg);
+        border: 2px solid var(--text);
+        width: 30px;
+        height: 30px;
+        overflow: hidden;
+        color: transparent;
+       }
+
+       /* Skip link */
+       .skip-link {
+           position: absolute;
+           top: -40px;
+           left: 6px;
+           background: var(--text);
+           color: var(--bg);
+           padding: var(--space-xs);
+           text-decoration: none;
+           z-index: 100;
+       }
+       .skip-link:focus { top: 6px; }
+
+       /* Header */
+       header {
+           padding: var(--space-md) 0;
+           border-bottom: 1px solid var(--border);
+           background: var(--bg-2);
+       }
+
+       nav ul {
+           list-style: none;
+           display: flex;
+           justify-content: center;
+           gap: var(--space-md);
+       }
+
+       nav a {
+           color: var(--text);
+           text-decoration: none;
+           padding: var(--space-xs) var(--space-sm);
+           border: 1px solid transparent;
+           transition: all 0.2s ease;
+       }
+
+       nav a:hover, nav a:focus {
+           border-color: var
+           (--text);
+           background: var(--bg-3);
+       }
+
+       .logo {
+           font-weight: bold;
+           font-size: 18px;
+           margin-bottom: var(--space-md);
+       }
+
+       /* Hero */
+       .hero {
+           padding: var(--space-xl) 0;
+           text-align: center;
+           background: linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
+       }
+
+       .hero h1 {
+           font-size: clamp(48px, 8vw, 112px);
+           font-weight: 300;
+           margin-bottom: var(--space-md);
+       }
+
+       .hero p {
+           font-size: 18px;
+           max-width: 600px;
+           margin: 0 auto var(--space-lg);
+           color: var(--text-dim);
+       }
+
+       .hero-features {
+           display: flex;
+           justify-content: center;
+           gap: var(--space-lg);
+           margin-bottom: var(--space-lg);
+           flex-wrap: wrap;
+       }
+
+       .hero-feature {
+           font-size: 14px;
+           font-weight: 500;
+           padding: var(--space-xs) var(--space-sm);
+           border: 1px solid var(--border);
+           background: var(--bg-2);
+       }
+
+       /* Sections */
+       section { padding: var(--space-xl) 0; }
+       .section-alt { background: var(--bg-2); }
+
+       h2 {
+           font-size: clamp(32px, 4vw, 56px);
+           font-weight: 300;
+           text-align: center;
+           margin-bottom: var(--space-md);
+       }
+
+       h3 {
+           font-size: 20px;
+           font-weight: 500;
+           margin-bottom: var(--space-sm);
+       }
+
+       /* Stats */
+       .stat {
+           text-align: center;
+           min-width: 120px;
+       }
+
+       .stat-number {
+           font-size: 40px;
+           font-weight: 300;
+           margin-bottom: var(--space-xs);
+       }
+
+       .stat-label {
+           font-size: 12px;
+           color: var(--text-dim);
+           text-transform: uppercase;
+           letter-spacing: 1px;
+       }
+
+       /* Download links */
+       .download-link {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           padding: var(--space-sm);
+           text-decoration: none;
+           color: var(--text);
+           border: 1px solid transparent;
+           margin-bottom: var(--space-xs);
+           transition: all 0.2s ease;
+       }
+
+       .download-link:hover {
+           border-color: var(--text);
+           background: var(--bg);
+       }
+
+       .download-size {
+           font-size: 13px;
+           color: var(--text-dim);
+       }
+
+       /* FAQ */
+       .faq { max-width: 800px; margin: 0 auto; }
+
+       details {
+           border: 1px solid var(--border);
+           margin-bottom: var(--space-sm);
+           background: var(--bg-3);
+       }
+
+       summary {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           padding: var(--space-md);
+           cursor: pointer;
+           font-weight: 500;
+           font-size: 16px;
+           list-style: none;
+           color: var(--text);
+           transition: background 0.2s ease;
+       }
+
+       summary:hover { background: var(--bg); }
+       summary::-webkit-details-marker { display: none; }
+       summary::after { content: '[+]'; }
+       details[open] summary::after { content: '[-]'; }
+
+       .faq-content {
+           padding: 0 var(--space-md) var(--space-md);
+           color: var(--text-dim);
+           font-size: 14px;
+       }
+
+       /* Footer */
+       footer {
+           background: var(--bg);
+           padding: var(--space-lg) 0;
+           text-align: center;
+           border-top: 1px solid var(--border);
+       }
+
+       .footer-logo {
+           width: 40px;
+           height: 40px;
+           margin: 0 auto var(--space-md);
+           font-weight: bold;
+       }
+
+       .footer-nav {
+           display: flex;
+           justify-content: center;
+           gap: var(--space-md);
+           margin-bottom: var(--space-md);
+           flex-wrap: wrap;
+       }
+
+       .footer-text {
+           color: var(--text-dim);
+           font-size: 13px;
+           margin-top: var(--space-md);
+           padding-top: var(--space-md);
+           border-top: 1px solid var(--border);
+       }
+
+       /* Code */
+       .code-block {
+           background: var(--bg);
+           padding: var(--space-sm);
+           border: 1px solid var(--border);
+           margin: var(--space-xs) 0;
+           font-size: 13px;
+           overflow-x: auto;
+       }
+
+       /* Responsive */
+       @media (max-width: 768px) {
+           .container { padding: 0 var(--space-sm); }
+           .hero-features, nav ul, .footer-nav { gap: var(--space-sm); }
+           section { padding: var(--space-lg) 0; }
+           .icon { width: 40px; height: 40px; font-size: 16px; }
+           .theme-switcher { top: 10px; right: 10px; }
+       }
+
+       /* Focus */
+       *:focus-visible {
+           outline: 1px solid var(--text);
+           outline-offset: 2px;
+       }
+
+       /* Scrollbar */
+       ::-webkit-scrollbar { width: 8px; }
+       ::-webkit-scrollbar-track { background: var(--bg); }
+       ::-webkit-scrollbar-thumb { background: var(--border); }
+       ::-webkit-scrollbar-thumb:hover { background: var(--text); }
+   </style>
+</head>
+<body data-theme="dark">
+   <a href="#main" class="skip-link">Skip to main content</a>
+
+   <header>
+       <div class="container">
+           <div class="logo icon text-center">GS</div>
+           <nav>
+               <ul>
+                   <li><a href="#features">Features</a></li>
+                   <li><a href="#download">Download</a></li>
+                   <li><a href="#faq">FAQ</a></li>
+               </ul>
+           </nav>
+       </div>
+   </header>
+
+   <main id="main">
+       <section class="hero">
+           <div class="container">
+               <h1>GitStash Manager</h1>
+               <p>Stop wrestling with command-line Git stashes. GitStash Manager brings visual clarity to your workflow with multi-repository support, instant search, and one-click operations.</p>
+
+               <div class="hero-features">
+                   <span class="hero-feature">100% Free</span>
+                   <span class="hero-feature">Open Source</span>
+                   <span class="hero-feature">Cross Platform</span>
+               </div>
+
+               <a href="#download" class="btn">Download Free Now</a>
+           </div>
+       </section>
+
+       <section id="features" class="section-alt">
+           <div class="container">
+               <h2>Lightning Fast. Super Light.</h2>
+
+               <div class="grid grid-stats card" style="margin-bottom: var(--space-xl);">
+                   <div class="stat">
+                       <div class="stat-number">0.3s</div>
+                       <div class="stat-label">Load Time</div>
+                   </div>
+                   <div class="stat">
+                       <div class="stat-number">5MB</div>
+                       <div class="stat-label">Memory</div>
+                   </div>
+                   <div class="stat">
+                       <div class="stat-number">0ms</div>
+                       <div class="stat-label">UI Response</div>
+                   </div>
+               </div>
+
+               <div class="grid grid-3">
+                <div class="card text-center">
+                  <div class="icon">⚡️</div> <!-- Lightning icon -->
+                  <h3>React 19 Powered</h3>
+                  <p class="text-dim">Latest React features with automatic batching and optimized rendering for blazing-fast performance.</p>
+                </div>
+
+                <div class="card text-center">
+                  <div class="icon">🪶</div> <!-- Feather icon -->
+                  <h3>Lightweight Build</h3>
+                  <p class="text-dim">Minimal footprint with maximum performance and functionality. Built with modern web technologies.</p>
+                </div>
+
+                <div class="card text-center">
+                  <div class="icon">🔍</div> <!-- Search icon -->
+                  <h3>Smart Search</h3>
+                  <p class="text-dim">Instant search across all your stashes with powerful filtering options and intelligent results.</p>
+                </div>
+
+                <div class="card text-center">
+                  <div class="icon">👁️</div> <!-- Eye icon -->
+                  <h3>Visual Diff</h3>
+                  <p class="text-dim">See changes with syntax highlighting and side-by-side comparison for better code review.</p>
+                </div>
+
+                <div class="card text-center">
+                  <div class="icon">🛡️</div> <!-- Shield icon -->
+                  <h3>Safe Operations</h3>
+                  <p class="text-dim">Built-in safety features prevent accidental data loss with confirmation dialogs and backups.</p>
+                </div>
+
+                <div class="card text-center">
+                  <div class="icon">🚀</div> <!-- Rocket icon -->
+                  <h3>Multi-Repository</h3>
+                  <p class="text-dim">Manage stashes across all your repositories from one unified interface with seamless switching.</p>
+                </div>
+              </div>
+
+           </div>
+       </section>
+
+       <section id="download">
+           <div class="container">
+               <h2>Download GitStash Manager</h2>
+               <p class="text-center text-dim" style="margin-bottom: var(--space-md);">Get started in less than 2 minutes</p>
+
+               <div class="grid grid-3">
+                   <div class="card">
+                       <div class="text-center" style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border);">
+                           <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                              <path fill="currentColor" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39a4.88 4.88 0 0 1 4.12-2.51c1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81a4.41 4.41 0 0 0 2.68 4.04c-.03.07-.42 1.44-1.38 2.83ZM13 3.5A4.55 4.55 0 0 1 15.94 2a4.38 4.38 0 0 1-1.04 3.19c-.69.85-1.83 1.51-2.95 1.42A4.27 4.27 0 0 1 13 3.5Z"/>
+                            </svg>
+                           </div>
+                           <h3>macOS</h3>
+                           <p class="text-dim">macOS 10.15 or later</p>
+                           <small class="text-dim">Universal download</small>
+                       </div>
+                       <a
+                        href="https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-arm64.dmg"
+                        class="download-link"
+                        download
+                      >
+                           <span>Apple Silicon (M1/M2/M3)</span>
+                           <span class="download-size">106MB</span>
+                       </a>
+                       <a
+                        href="https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.dmg"
+                        class="download-link"
+                        download
+                      >
+                           <span>Intel Mac</span>
+                           <span class="download-size">111MB</span>
+                       </a>
+                   </div>
+
+                   <div class="card">
+                       <div class="text-center" style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border);">
+                           <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.01 22.01" width="24" height="24">
+                              <path fill="currentColor" d="M10.06 10.41V1.98c0-.08 0-.15.02-.23C10.79 1.62 21.8 0 21.98 0v.13c.03 2.12.01 10.15-.02 10.34l-.1.01h-.6l-10.96.05-.23-.01v-.1zm11.9 1.22c-.06-.03-.12-.02-.18-.02l-2.4-.02-6.35-.02-2.77-.01c-.06 0-.13-.02-.19.01-.02.07-.02.14-.02.2v8.48l.02.11 11.84 1.66h.06V11.65l-.01-.03zm-13.02-.08c-2.95 0-5.9-.02-8.84-.03l-.06.01-.01.09c-.02.46 0 7.16.02 7.33l8.87 1.24H9l.01-.05v-8.57l-.06-.02zm.02-9.64L.25 3.2l-.21.03-.01.14C0 5.1.02 10.38.05 10.57h.2l8.3-.03h.33l.12-.02V1.93l-.04-.02z"/>
+                            </svg>
+                           </div>
+                           <h3>Windows</h3>
+                           <p class="text-dim">Windows 10/11 (64-bit)</p>
+                           <small class="text-dim">Ready to install</small>
+                       </div>
+                       <a
+                        href="https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.exe"
+                        class="download-link"
+                        download
+                       >
+                           <span>Installer</span>
+                           <span class="download-size">84MB</span>
+                       </a>
+                   </div>
+
+                   <div class="card">
+                       <div class="text-center" style="margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border);">
+                           <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="24" height="24">
+                              <path fill="currentColor" d="M14.92 8.08c-.02.07-.14.06-.2.08-.06.03-.11.09-.18.09-.06 0-.16-.03-.17-.09-.01-.08.11-.16.19-.16a.4.4 0 0 1 .32 0v-.01c.02 0 .04.03.04.06v.03zm.7 0v-.03c-.02-.02 0-.05.03-.06a.4.4 0 0 1 .32 0c.08 0 .2.09.19.18 0 .06-.1.08-.17.08s-.12-.06-.18-.09c-.06-.02-.18 0-.2-.08zm1.34 1.98a4.6 4.6 0 0 1-1.83.66h-.03a2.93 2.93 0 0 1-1.6-.58c-.19-.16-.35-.33-.46-.41-.2-.17-.18-.42-.1-.42.14.02.17.17.26.25.12.08.26.25.45.42.4.32.9.54 1.45.58a3.92 3.92 0 0 0 1.77-.6l-.02.02.81-.59c.2-.17.19-.33.35-.33.16.02.04.17-.18.41-.25.2-.53.38-.82.56l-.05.03zM8.02 21.4c.08 0 .15 0 .21.02.54.13.99.47 1.27.93l1.14 2.08c.46.78.95 1.45 1.5 2.07l-.01-.02c.49.52.82 1.2.9 1.95l.01.02c-.01.82-.61 1.5-1.4 1.62a4.6 4.6 0 0 1-3.01-.6l.01.02a10.05 10.05 0 0 0-3.55-.75h-.02c-.37-.03-.7-.22-.9-.5a1.99 1.99 0 0 1 .16-1.55v.01a3 3 0 0 0-.04-1.42v.02a1.93 1.93 0 0 1 .06-1.2v.02c.2-.42.5-.5.86-.66a3.5 3.5 0 0 0 1.15-.6c.31-.33.55-.75.83-1.04.2-.25.5-.41.83-.42zm13.51-.06v.05c0 .75.45 1.39 1.1 1.66l.16.01c.83 0 1.58-.37 2.08-.95l.26-.02.18-.01c.34 0 .65.13.88.35.26.3.43.67.5 1.08v.01c.05.5.23.96.51 1.34.41.35.7.85.8 1.4v.03-.01c-.03.32-.24.5-.63.74-1.18.5-2.2 1.16-3.08 1.97h.01c-.6.79-1.5 1.33-2.52 1.48h-.02a1.89 1.89 0 0 1-1.97-1.1v-.02a3.13 3.13 0 0 1 .07-2.14v.02c.23-.66.43-1.46.56-2.28l.01-.09c.02-.8.1-1.59.26-2.35l-.01.09c.08-.52.38-.96.79-1.23l.06-.03zm-2.73-11.2c.6 2.15 1.34 4 2.25 5.76l-.08-.17a12.82 12.82 0 0 1 1.36 3.7l.02.08h.03c.21 0 .42.03.62.08H23a5.07 5.07 0 0 0-1.36-4.95c-.28-.26-.3-.42-.16-.42a7.25 7.25 0 0 1 2.05 3.39v.05a4.26 4.26 0 0 1 .03 2.12v-.03a.9.9 0 0 0 .26.08c1.3.67 1.77 1.17 1.54 1.92v-.05h-.25c.2-.59-.22-1.03-1.33-1.53-1.14-.5-2.05-.42-2.2.58a1 1 0 0 0-.03.16c-.07.04-.16.07-.25.09h-.01c-.51.33-.87.86-1 1.47v.01c-.14.7-.23 1.5-.25 2.32v.02a9.4 9.4 0 0 1-.42 1.75l.02-.06a5.72 5.72 0 0 1-6.7.4l.02.01a3.33 3.33 0 0 0-.5-.66c-.1-.16-.21-.3-.34-.42.2 0 .4-.03.59-.09h-.02a.78.78 0 0 0 .4-.4 1.64 1.64 0 0 0-.43-1.46 8 8 0 0 0-2.2-1.88l-.04-.02a3.2 3.2 0 0 1-1.43-1.72v-.03a3.83 3.83 0 0 1-.02-2.08v.03c.37-1.32.92-2.46 1.62-3.5l-.03.04c.13-.08.04.17-.51 1.22a4.58 4.58 0 0 0-.14 4.84l-.01-.02c.05-1.31.34-2.54.83-3.66l-.03.07a21.1 21.1 0 0 0 2.28-6.46l.02-.13c.06.05.27.17.36.25.27.17.48.42.74.59.26.26.63.42 1.03.42h.2c.46 0 .89-.13 1.26-.34h-.01c.36-.16.65-.41.92-.5.54-.14.99-.45 1.3-.86h.01zm-3.5-2.68h.01c.57 0 1.1.2 1.52.5h-.01c.38.24.81.44 1.27.58h.04c.26.12.46.29.6.5v-.16a.71.71 0 0 1 .03.6v-.01c-.3.5-.76.88-1.32 1.05h-.01c-.34.17-.63.42-.97.58-.35.21-.77.34-1.22.34H15.12a1.4 1.4 0 0 1-.5-.09h.02a4.53 4.53 0 0 1-.42-.25h.01c-.22-.2-.47-.38-.74-.56l-.02-.01v-.01c-.38-.2-.68-.5-.86-.88a.63.63 0 0 1 .24-.75c.28-.18.47-.35.6-.43l.22-.16c.27-.34.62-.6 1.03-.75h.02c.17-.06.37-.08.58-.09zM13.6 5.33h.04c.2 0 .36.07.5.17.18.16.33.35.43.57v.01c.11.25.18.53.2.83v.01a1.8 1.8 0 0 1-.01.34v.1l-.1.02c-.2.08-.36.17-.5.26a1.3 1.3 0 0 0 0-.35h.01v-.01c-.02-.16-.05-.3-.1-.43v.01a.77.77 0 0 0-.21-.33.3.3 0 0 0-.2-.08h-.06a.3.3 0 0 0-.23.16.7.7 0 0 0-.15.34 1.13 1.13 0 0 0-.03.42v.01c.02.16.06.3.1.43a.8.8 0 0 0 .21.33l.04.03c-.08.05-.15.1-.22.17a.37.37 0 0 1-.16.08 3.24 3.24 0 0 1-.34-.49v-.01a2.18 2.18 0 0 1-.2-.83 2.22 2.22 0 0 1 .1-.85v.01c.08-.26.2-.48.36-.67a.7.7 0 0 1 .52-.25zm3.7-.07h.02c.28 0 .53.1.73.25.23.17.41.4.54.65v.01c.13.27.2.58.21.9V7v.13-.05c0 .32-.07.62-.2.9l.01-.02c-.06.16-.15.3-.26.42a.77.77 0 0 0-.1-.05h-.01c-.14-.05-.26-.1-.36-.17a1.61 1.61 0 0 0-.26-.08h-.01l.22-.25c.07-.15.1-.32.11-.5v-.05c0-.17-.02-.34-.08-.49v.01c-.06-.16-.13-.3-.22-.42a.57.57 0 0 0-.33-.16h-.02a.4.4 0 0 0-.33.17 1 1 0 0 0-.26.4v.01c-.06.15-.1.32-.11.5v.03c0 .12.01.23.03.35v-.02c-.25-.08-.55-.17-.76-.25a1.81 1.81 0 0 1-.03-.25v-.09c0-.33.07-.63.2-.9.1-.27.28-.5.52-.66.21-.16.47-.25.75-.25zM16.63 1l-.6.03c-5.28.42-3.88 6-3.96 7.87a6.72 6.72 0 0 1-1.33 3.8l.02-.03A18.58 18.58 0 0 0 7.4 18.2l-.05.12a6.58 6.58 0 0 0-.35 3.15v-.04c-.06.05-.1.1-.14.17-.33.34-.57.75-.83 1.05a3 3 0 0 1-.98.5h-.02c-.46.14-.84.44-1.07.84V24c-.11.21-.17.46-.17.72v.03c0 .24.02.47.07.7v-.03a3 3 0 0 1 .04 1.23v-.01a2.3 2.3 0 0 0-.12 1.87v-.02c.27.39.68.66 1.16.75 1.28.1 2.46.37 3.57.78l-.1-.03a4.77 4.77 0 0 0 3.3.58h-.03a2.23 2.23 0 0 0 1.5-1.16l.01-.01c.74 0 1.54-.34 2.83-.42.87-.07 1.96.33 3.22.25.03.16.08.3.15.43l-.01-.02A2.35 2.35 0 0 0 21.76 31h-.01a4.38 4.38 0 0 0 2.81-1.63c.85-.77 1.83-1.4 2.91-1.86l.07-.02c.43-.2.74-.59.81-1.06-.06-.7-.4-1.3-.89-1.72v-.13a2.8 2.8 0 0 1-.43-1.14v-.02a2.17 2.17 0 0 0-.61-1.3c-.08-.07-.16-.09-.24-.18a.44.44 0 0 0-.24-.08 6.6 6.6 0 0 0-.23-4.66l.01.05A15.73 15.73 0 0 0 23 12.87l.02.02a6.52 6.52 0 0 1-1.95-4.19v-.02c.03-2.69.3-7.67-4.43-7.67z"/>
+                            </svg>
+                           </div>
+                           <h3>Linux</h3>
+                           <p class="text-dim">All distributions</p>
+                           <small class="text-dim">Universal AppImage</small>
+                       </div>
+                       <a
+                        href="https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/gitstash-manager-1.0.0.AppImage"
+                        class="download-link"
+                        download
+                      >
+                           <span>AppImage (Universal)</span>
+                           <span class="download-size">113MB</span>
+                       </a>
+                       <div class="text-center text-dim" style="padding-top: var(--space-sm); border-top: 1px solid var(--border); margin-top: var(--space-sm);">
+                           <p><strong>How to run:</strong></p>
+                           <div class="code-block">
+                               chmod +x gitstash-manager-1.0.0.AppImage<br>
+                               ./gitstash-manager-1.0.0.AppImage
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="card text-center" style="margin-top: var(--space-lg);">
+                   <h3 style="margin-bottom: var(--space-sm);">Need other formats?</h3>
+                   <p class="text-dim" style="margin-bottom: var(--space-sm);">
+                       Looking for .deb, .rpm, or other package formats? We're working on expanding our distribution options.
+                   </p>
+                   <p class="text-dim" style="font-size: 13px;">
+                       For now, the AppImage works on all Linux distributions without installation.
+                   </p>
+               </div>
+           </div>
+       </section>
+
+       <section id="faq" class="section-alt">
+           <div class="container">
+               <h2>Frequently Asked Questions</h2>
+
+               <div class="faq">
+                   <details>
+                       <summary>Is GitStash Manager free and open source?</summary>
+                       <div class="faq-content">
+                           <p>Yes! GitStash Manager is completely free and open source under the MIT license. There are no paid plans or limitations - you can manage as many repositories as you want.</p>
+                       </div>
+                   </details>
+
+                   <details>
+                       <summary>What features does it offer?</summary>
+                       <div class="faq-content">
+                           <p>GitStash Manager offers an intuitive interface for managing stashes, multi-repository support, quick actions (apply/drop stashes), file-level preview with status indicators, diff viewer with syntax highlighting, resizable panels, and theme toggle (light/dark mode).</p>
+                       </div>
+                   </details>
+
+                   <details>
+                       <summary>How does it handle my Git data?</summary>
+                       <div class="faq-content">
+                           <p>GitStash Manager is a local desktop application that uses simple-git for reliable git operations. It only stores your repository paths and UI preferences locally. No repository data is transmitted anywhere.</p>
+                       </div>
+                   </details>
+
+                   <details>
+                       <summary>Can I preview stashed changes before applying them?</summary>
+                       <div class="faq-content">
+                           <p>Yes! When you select a stash, you can see all changed files with status indicators. Click any file to view a detailed diff with syntax highlighting, helping you review changes before applying them.</p>
+                       </div>
+                   </details>
+
+                   <details>
+                       <summary>How do I manage multiple repositories?</summary>
+                       <div class="faq-content">
+                           <p>Click the add button in the sidebar to add a repository. Each repository appears in the sidebar with an expandable stash list. You can easily switch between repositories, and the app maintains separate stash lists for each one.</p>
+                       </div>
+                   </details>
+
+                   <details>
+                       <summary>What platforms are supported?</summary>
+                       <div class="faq-content">
+                           <p>GitStash Manager runs on macOS (Intel: 101MB, Apple Silicon: 97MB), Windows 10/11 64-bit (85MB), and Linux (AppImage: 87MB). All builds are optimized for size while maintaining full feature parity and performance.</p>
+                       </div>
+                   </details>
+               </div>
+           </div>
+       </section>
+   </main>
+
+   <footer>
+       <div class="container">
+           <div class="footer-logo icon">GS</div>
+           <p style="margin-bottom: var(--space-md); color: var(--text-dim);">Making Git stash management simple and beautiful for developers worldwide.</p>
+
+           <nav class="footer-nav">
+               <a href="#features">Features</a>
+               <a href="#download">Download</a>
+               <a href="#faq">FAQ</a>
+           </nav>
+
+           <div class="footer-text">
+               <p>© 2024 GitStash Manager. Made with care for developers.</p>
+           </div>
+       </div>
+   </footer>
+
+   <!-- Theme Switcher -->
+   <div class="theme-switcher">
+    <select id="theme-toggle" class="theme-toggle">
+      <optgroup label="Light">
+        <option value="light">Light</option>
+        <option value="light-green">Light Green</option>
+        <option value="light-blue">Light Blue</option>
+      </optgroup>
+      <optgroup label="Dark">
+        <option value="dark">Dark</option>
+        <option value="dark-green">Dark Green</option>
+        <option value="dark-blue">Dark Blue</option>
+      </optgroup>
+    </select>
+ </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const themeSelect = document.querySelector('.theme-toggle');
+
+      // Load saved theme or default to dark
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      body.setAttribute('data-theme', savedTheme);
+      themeSelect.value = savedTheme;
+
+      // Theme toggle event listener
+      themeSelect.addEventListener('change', () => {
+        const selectedTheme = themeSelect.value;
+        body.setAttribute('data-theme', selectedTheme);
+        localStorage.setItem('theme', selectedTheme);
+      });
+    });
+  </script>
+</body>
+</html>

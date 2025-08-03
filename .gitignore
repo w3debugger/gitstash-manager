@@ -55,3 +55,6 @@ app/node_modules/
 
 # yarn.lock
 yarn.lock
+
+# downloads
+downloads/
