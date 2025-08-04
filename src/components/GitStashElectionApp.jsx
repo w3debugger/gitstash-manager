@@ -141,7 +141,7 @@ const WelcomeScreen = ({ onAddRepository }) => (
   <div className="w-full h-full flex-1 flex items-center justify-center" data-id="welcome">
     <div className="text-center">
       <div className="text-4xl mb-4">🗳️</div>
-      <h2 className="text-2xl text-on-surface mb-6">Welcome to Git Stash Election</h2>
+      <h2 className="text-2xl text-on-surface mb-6">Welcome to GitStash Manager</h2>
       <Button 
         variant="primary"
         onClick={onAddRepository}

@@ -1,6 +1,6 @@
 {
   "name": "gitstash-manager",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An Electron desktop app for viewing and managing git stashes across multiple repositories",
   "main": "main.js",
   "homepage": "./",
@@ -13,7 +13,11 @@
     "build:linux": "vite build && electron-builder --linux",
     "build:linux-light": "vite build && electron-builder --linux --config.linux.target=AppImage --config.linux.target=deb",
     "build:all": "vite build && electron-builder --mac --win --linux",
-    "dist": "vite build && electron-builder --publish=never"
+    "dist": "vite build && electron-builder --publish=never",
+    "clean": "rm -rf downloads/*",
+    "release:patch": "yarn clean && yarn version --patch && yarn build:all",
+    "release:minor": "yarn clean && yarn version --minor && yarn build:all",
+    "release:major": "yarn clean && yarn version --major && yarn build:all"
   },
   "dependencies": {
     "classnames": "^2.5.1",
@@ -65,7 +69,10 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["arm64", "x64"]
+          "arch": [
+            "arm64",
+            "x64"
+          ]
         }
       ],
       "category": "public.app-category.developer-tools",
@@ -75,7 +82,9 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "artifactName": "${productName}-${version}-${arch}.${ext}"
@@ -84,7 +93,9 @@
       "target": [
         {
           "target": "AppImage",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "artifactName": "${name}-${version}.${ext}",

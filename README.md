@@ -1,8 +1,8 @@
-# 🗳️ Git Stash Election
+# 🗳️ GitStash Manager
 
 A modern Electron desktop application for managing git stashes across multiple repositories with an intuitive, election-style interface built with React 19.
 
-![Git Stash Election](https://img.shields.io/badge/Electron-App-47848F?style=for-the-badge&logo=electron)
+![GitStash Manager](https://img.shields.io/badge/Electron-App-47848F?style=for-the-badge&logo=electron)
 ![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=for-the-badge&logo=react)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.0-06B6D4?style=for-the-badge&logo=tailwindcss)
 ![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey?style=for-the-badge)
@@ -33,7 +33,7 @@ Choose your Mac architecture for optimal performance:
 | **Apple Silicon** | **Intel Mac** |
 |:---:|:---:|
 | ![Apple Silicon](https://img.shields.io/badge/M1%2FM2%2FM3-Ready-FF6B35?style=for-the-badge&logo=apple) | ![Intel](https://img.shields.io/badge/Intel-Compatible-0071C5?style=for-the-badge&logo=intel) |
-| [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-arm64.dmg) | [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.dmg) |
+| [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.1.0/GitStash.Manager-1.1.0-arm64.dmg) | [**Download DMG**](https://github.com/w3debugger/gitstash-manager/releases/download/1.1.0/GitStash.Manager-1.1.0-x64.dmg) |
 | `106 MB` | `111 MB` |
 
 ---
@@ -43,7 +43,7 @@ Choose your Mac architecture for optimal performance:
 
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?style=for-the-badge&logo=windows)
 
-[**📦 Download Installer**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/GitStash.Manager-1.0.0-x64.exe)
+[**📦 Download Installer**](https://github.com/w3debugger/gitstash-manager/releases/download/1.1.0/GitStash.Manager-1.1.0-x64.exe)
 
 `84 MB • 64-bit`
 
@@ -54,7 +54,7 @@ Choose your Mac architecture for optimal performance:
 
 ![Linux](https://img.shields.io/badge/Linux-Universal-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
-[**🔥 Download AppImage**](https://github.com/w3debugger/gitstash-manager/releases/download/1.0.0/gitstash-manager-1.0.0.AppImage)
+[**🔥 Download AppImage**](https://github.com/w3debugger/gitstash-manager/releases/download/1.1.0/gitstash-manager-1.1.0.AppImage)
 
 `113 MB • No installation required`
 

@@ -112,12 +112,12 @@ function createMenu() {
       label: 'Help',
       submenu: [
         {
-          label: 'About Git Stash Election',
+          label: 'About GitStash Manager',
           click: () => {
             dialog.showMessageBox(mainWindow, {
               type: 'info',
               title: 'About',
-              message: 'Git Stash Election',
+              message: 'GitStash Manager',
               detail: 'A desktop app for managing git stashes across multiple repositories with an election-style interface.'
             });
           }
@@ -428,7 +428,7 @@ ipcMain.handle('get-repo-status', async (event, repoPath) => {
 ipcMain.handle('stash-changes', async (event, repoPath) => {
   try {
     const git = simpleGit(repoPath);
-    await git.stash(['push', '-u', '-m', 'Changes stashed via Git Stash Election']);
+    await git.stash(['push', '-u', '-m', 'Changes stashed via GitStash Manager']);
     return { success: true };
   } catch (error) {
     logger.error('Stash changes error:', error);
@@ -459,7 +459,7 @@ app.on('window-all-closed', () => {
 
 // Handle app updates and other events
 app.setAboutPanelOptions({
-  applicationName: 'Git Stash Election',
+  applicationName: 'GitStash Manager',
   applicationVersion: app.getVersion(),
   copyright: 'Copyright © 2024',
   credits: 'An election-style git stash manager'
