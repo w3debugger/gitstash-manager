@@ -33,7 +33,7 @@ const ThemeToggle = () => {
       onClick={toggleTheme}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       variant="ghost"
-      className="fixed top-4 right-4 z-50 p-2 rounded-xl"
+      className="fixed bottom-4 right-4 z-50 p-2 rounded-xl"
     >
       {isDark ? '🌞' : '🌙'}
     </IconButton>

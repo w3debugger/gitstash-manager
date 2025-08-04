@@ -24,7 +24,7 @@ const initialState = {
   files: [],
   columns: {
     repositories: 300,
-    files: 280,
+    files: 300,
   },
 }
 

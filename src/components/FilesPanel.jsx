@@ -87,7 +87,7 @@ const FilesList = ({ files, onSelectFile }) => (
 const FileItem = ({ file, onClick }) => (
   <div 
     className={classNames(
-      'flex items-center gap-3 font-mono text-xs cursor-pointer hover:bg-hover',
+      'flex items-center gap-3 cursor-pointer hover:bg-hover',
       { 'text-on-surface font-bold': file.isSelected }
     )}
     onClick={() => onClick(file)}

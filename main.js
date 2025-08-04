@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const path = require('path');
 const simpleGit = require('simple-git');
-const Store = require('electron-store');
+const Store = require('electron-store').default;
 
 // Initialize electron store for persisting repositories
 const store = new Store();

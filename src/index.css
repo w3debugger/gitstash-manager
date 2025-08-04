@@ -14,8 +14,8 @@
   --color-on-surface-variant: #6b7280;
   
   /* Diff colors */
-  --color-diff-added: #22c55e;
-  --color-diff-removed: #ef4444;
+  --color-diff-added: #317D43;
+  --color-diff-removed: #C74646;
   
   /* Interactive states */
   --color-hover: #f3f4f6;
@@ -23,26 +23,6 @@
   --color-border: #e5e7eb;
   --color-border-variant: #d1d5db;
 }
-
-/* Dark mode theme */
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --color-primary: #ffffff;
-    --color-on-primary: #000000;
-    --color-standard: #000000;
-    --color-on-standard: #ffffff;
-    
-    --color-surface: #000000;
-    --color-surface-variant: #1f2937;
-    --color-on-surface: #ffffff;
-    --color-on-surface-variant: #9ca3af;
-    
-    --color-hover: #374151;
-    --color-active: #4b5563;
-    --color-border: #374151;
-    --color-border-variant: #4b5563;
-  }
-} */
 
 /* Manual dark mode override */
 [data-theme="dark"] {
@@ -68,6 +48,7 @@
 
 body {
   font-family: monospace;
+  font-size: 12px;
   background: var(--color-surface);
   color: var(--color-on-surface);
   overflow: hidden;
@@ -124,6 +105,17 @@ button {
 
 .no-layout-shift {
   scrollbar-gutter: auto; /* Prevent layout shifts without permanent space */
+}
+
+/* Electron window dragging */
+.app-drag {
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
 }
 
 @layer components {

@@ -123,7 +123,7 @@ const StashDetailsView = () => {
 const ContentDisplay = ({ loading, content }) => (
   <div
     data-id="stash-content-display"
-    className="flex-1 overflow-y-auto bg-surface p-5 font-mono text-sm leading-relaxed"
+    className="flex-1 overflow-y-auto bg-surface p-5 leading-relaxed"
   >
     {loading ? (
       <LoadingState />
@@ -148,7 +148,7 @@ const ContentText = ({ content }) => {
   
   return (
     <pre 
-      className="whitespace-pre-wrap break-words text-on-surface font-mono" 
+      className="whitespace-pre-wrap break-words text-on-surface" 
       data-id="stash-content-text"
     >
       {lines.map((line, index) => {

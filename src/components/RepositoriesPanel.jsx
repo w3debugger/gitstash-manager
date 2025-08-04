@@ -92,7 +92,6 @@ const RepositoriesPanel = () => {
 
   return (
     <div className="w-full h-full flex flex-col" data-id="repositories-panel">
-      <div className="p-4">🗳️ Git Stash Election</div>
       <RepositoryList
         repositories={processedRepositories}
         operations={repositoryOps}
@@ -112,7 +111,7 @@ const RepositoriesPanel = () => {
 }
 
 const RepositoryList = ({ repositories, operations }) => (
-  <div className="flex-1 flex flex-col grow border-y border-border overflow-y-auto">
+  <div className="flex-1 flex flex-col grow border-b border-border overflow-y-auto">
     {repositories.map(repository => (
       <RepositoryItem 
         key={repository.id} 
