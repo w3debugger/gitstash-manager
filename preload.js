@@ -16,6 +16,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   applyStash: (repoPath, index) => ipcRenderer.invoke('apply-stash', repoPath, index),
   dropStash: (repoPath, index) => ipcRenderer.invoke('drop-stash', repoPath, index),
   getRepoStatus: (repoPath) => ipcRenderer.invoke('get-repo-status', repoPath),
+  stashChanges: (repoPath) => ipcRenderer.invoke('stash-changes', repoPath),
   
   // Event listeners
   onRepositoryAdded: (callback) => ipcRenderer.on('repository-added', callback),

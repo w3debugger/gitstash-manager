@@ -1,6 +1,7 @@
 import { use, useCallback, useMemo } from 'react'
 import { AppContext } from '../context/AppContext'
 import StashList from './StashList'
+import RepositoryStatus from './RepositoryStatus'
 import Button from './ui/Button'
 
 const RepositoriesPanel = () => {
@@ -126,7 +127,10 @@ const RepositoryItem = ({ repository, operations }) => (
   <div className="border-b border-border" data-id={`repository-item-${repository.id}`}>
     <RepositoryHeader repository={repository} operations={operations} />
     {repository.isExpanded && (
-      <StashList repository={repository} stashes={repository.stashes} />
+      <>
+        <RepositoryStatus repository={repository} />
+        <StashList repository={repository} stashes={repository.stashes} />
+      </>
     )}
   </div>
 )

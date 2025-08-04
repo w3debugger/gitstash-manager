@@ -425,6 +425,17 @@ ipcMain.handle('get-repo-status', async (event, repoPath) => {
   }
 });
 
+ipcMain.handle('stash-changes', async (event, repoPath) => {
+  try {
+    const git = simpleGit(repoPath);
+    await git.stash(['push', '-u', '-m', 'Changes stashed via Git Stash Election']);
+    return { success: true };
+  } catch (error) {
+    logger.error('Stash changes error:', error);
+    return { success: false, error: error.message };
+  }
+});
+
 ipcMain.handle('add-repository-dialog', () => {
   addRepository();
 });

@@ -136,17 +136,6 @@ const GitStashElectionApp = () => {
   )
 }
 
-// Extracted main content component
-const MainContent = ({ hasRepositories, onAddRepository }) => (
-  <div className="flex-1 overflow-hidden" data-id="main-content-container">
-    {hasRepositories ? (
-      <StashDetailsView />
-    ) : (
-      <WelcomeScreen onAddRepository={onAddRepository} />
-    )}
-  </div>
-)
-
 // Extracted welcome screen component
 const WelcomeScreen = ({ onAddRepository }) => (
   <div className="w-full h-full flex-1 flex items-center justify-center" data-id="welcome">
@@ -155,7 +144,6 @@ const WelcomeScreen = ({ onAddRepository }) => (
       <h2 className="text-2xl text-on-surface mb-6">Welcome to Git Stash Election</h2>
       <Button 
         variant="primary"
-        size="lg"
         onClick={onAddRepository}
         data-id="add-repository-btn"
       >
