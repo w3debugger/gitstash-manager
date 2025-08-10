@@ -1,4 +1,5 @@
-import { use, useCallback, useMemo } from 'react'
+import { use, useCallback, useMemo, useEffect } from 'react'
+import classNames from 'classnames'
 import { AppContext } from '../context/AppContext'
 import StashList from './StashList'
 import RepositoryStatus from './RepositoryStatus'
@@ -10,8 +11,12 @@ const RepositoriesPanel = () => {
     repositoryStashes, 
     repositoryExpanded, 
     selectedRepository,
+    repositoriesPanelMinimized,
+    columns,
     setRepositoryStashes,
     setRepositoryExpanded,
+    setRepositoriesPanelMinimized,
+    setColumnWidth,
   } = use(AppContext)
 
   // Memoized repository operations
@@ -91,51 +96,84 @@ const RepositoriesPanel = () => {
     [repositories, repositoryExpanded, repositoryStashes, selectedRepository?.id]
   )
 
+  // Auto-adjust column width when minimized state changes
+  useEffect(() => {
+    if (repositoriesPanelMinimized) {
+      // Set to a compact width for minimized view
+      setColumnWidth('repositories', 49)
+    } else {
+      // Restore to default width
+      setColumnWidth('repositories', 300)
+    }
+  }, [repositoriesPanelMinimized, setColumnWidth])
+
   return (
     <div className="w-full h-full flex flex-col" data-id="repositories-panel">
+      <div
+        className={classNames(
+          'flex items-center p-2 border-b border-border',
+          repositoriesPanelMinimized ? 'justify-center' : 'justify-between'
+        )}
+      >
+        {!repositoriesPanelMinimized && (
+          <span className="opacity-60">
+            {repositoriesPanelMinimized ? '' : 'Repositories'}
+          </span>
+        )}
+        <Button
+          onClick={() => setRepositoriesPanelMinimized(!repositoriesPanelMinimized)}
+          title={repositoriesPanelMinimized ? "Expand panel" : "Minimize panel"}
+          variant="secondary"
+        >
+          {repositoriesPanelMinimized ? '>' : '<'}
+        </Button>
+      </div>
+
+      {/* Repository List - always visible but layout changes */}
       <RepositoryList
         repositories={processedRepositories}
         operations={repositoryOps}
+        isMinimized={repositoriesPanelMinimized}
       />
-      <div className="flex justify-evenly gap-2 p-4">
+      <div className="flex justify-center gap-2 py-4">
         <Button
           onClick={repositoryOps.add}
           data-id="add-repository-btn"
           variant="secondary"
-          className="bg-on-primary text-on-primary border-border hover:bg-on-primary/30"
         >
-          Add New Repository
+          {repositoriesPanelMinimized ? '+' : 'Add New Repository'}
         </Button>
       </div>
     </div>
   )
 }
 
-const RepositoryList = ({ repositories, operations }) => (
+const RepositoryList = ({ repositories, operations, isMinimized }) => (
   <div className="flex-1 flex flex-col grow border-b border-border overflow-y-auto">
     {repositories.map(repository => (
       <RepositoryItem 
         key={repository.id} 
         repository={repository} 
         operations={operations}
+        isMinimized={isMinimized}
       />
     ))}
   </div>
 )
 
-const RepositoryItem = ({ repository, operations }) => (
+const RepositoryItem = ({ repository, operations, isMinimized }) => (
   <div className="border-b border-border" data-id={`repository-item-${repository.id}`}>
-    <RepositoryHeader repository={repository} operations={operations} />
+    <RepositoryHeader repository={repository} operations={operations} isMinimized={isMinimized} />
     {repository.isExpanded && (
       <>
-        <RepositoryStatus repository={repository} />
+        <RepositoryStatus repository={repository} isMinimized={isMinimized} />
         <StashList repository={repository} stashes={repository.stashes} />
       </>
     )}
   </div>
 )
 
-const RepositoryHeader = ({ repository, operations }) => {
+const RepositoryHeader = ({ repository, operations, isMinimized }) => {
   const handleClick = useCallback(() => operations.toggle(repository), [repository, operations]) 
 
   const handleRemove = useCallback((e) => {
@@ -143,33 +181,73 @@ const RepositoryHeader = ({ repository, operations }) => {
     operations.remove(repository)
   }, [repository, operations])
 
-  const [firstCharacter, secondCharacter] = repository.name.split('-') || ['', '']
-
   return (
     <div
-      className="flex justify-between items-center gap-2 p-2 group/repository-header overflow-hidden"
+      className={classNames(
+        'flex justify-between items-center gap-2 p-2 group/repository-header overflow-hidden',
+      )}
       data-id={`repository-header-${repository.id}`}
     >
       <button
-        className="flex items-center gap-2 overflow-hidden cursor-pointer"
+        className={`flex items-center gap-2 overflow-hidden cursor-pointer group/repo ${
+          isMinimized ? 'justify-center' : ''
+        }`}
         title={repository.path}
         onClick={handleClick}
         type="button"
       >
-        <span className="flex items-center justify-center gap-1 bg-primary-text rounded-md p-1 size-8 shrink-0 border border-border">
-          {firstCharacter?.toUpperCase().slice(0, 1)}{secondCharacter?.toUpperCase().slice(0, 1)}
-        </span>
-        <span>{repository.name}</span>
+        <RepositoryIcon repository={repository} isMinimized={isMinimized} />
+        {!isMinimized && <span className="truncate">{repository.name}</span>}
+        
+        {isMinimized && (
+          <div
+            className={classNames(
+              'group-hover/repo:opacity-100',
+              'bg-primary text-on-primary text-xs',
+              'whitespace-nowrap',
+              'px-2 py-1',
+              'ml-2',
+              'rounded shadow-lg',
+              'absolute left-full z-30',
+              'opacity-0  transition-opacity',
+              'pointer-events-none',
+            )}
+          >
+            {repository.name}
+          </div>
+        )}
       </button>
-      <button 
-        title="Remove Repository"
-        onClick={handleRemove}
-        data-id={`remove-repository-btn-${repository.id}`}
-        type="button"
-        className="font-bold text-red-500 cursor-pointer translate-x-10 group-hover/repository-header:translate-x-0 transition-transform duration-300"
-      >
-        DEL
-      </button>
+
+      {!isMinimized && (
+        <button 
+          title="Remove Repository"
+          onClick={handleRemove}
+          data-id={`remove-repository-btn-${repository.id}`}
+          type="button"
+          className="font-bold text-red-500 cursor-pointer translate-x-10 group-hover/repository-header:translate-x-0 transition-transform duration-300"
+        >
+          DEL
+        </button>
+      )}
+    </div>
+  )
+}
+
+const RepositoryIcon = ({ repository, isMinimized }) => {
+  const [firstCharacter, secondCharacter] = repository.name.split('-') || ['', '']
+
+  return (
+    <div className="relative">
+      <span className="flex items-center justify-center gap-1 bg-primary-text rounded-md p-1 size-8 shrink-0 border border-border">
+        {firstCharacter?.toUpperCase().slice(0, 1)}{secondCharacter?.toUpperCase().slice(0, 1)}
+      </span>
+      
+      {/* Stash count badge for minimized view */}
+      {isMinimized && repository.stashes && repository.stashes.length > 0 && (
+        <div className="absolute -top-1 -right-1 bg-primary text-on-primary text-xs rounded-full size-5 flex items-center justify-center font-medium">
+          {repository.stashes.length}
+        </div>
+      )}
     </div>
   )
 }

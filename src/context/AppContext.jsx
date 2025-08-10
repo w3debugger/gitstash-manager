@@ -12,6 +12,7 @@ export const ACTIONS = Object.freeze({
   SET_SELECTED_FILE: 'SET_SELECTED_FILE',
   SET_FILES: 'SET_FILES',
   SET_COLUMN_WIDTH: 'SET_COLUMN_WIDTH',
+  SET_REPOSITORIES_PANEL_MINIMIZED: 'SET_REPOSITORIES_PANEL_MINIMIZED',
 })
 
 const initialState = {
@@ -26,6 +27,10 @@ const initialState = {
     repositories: 300,
     files: 300,
   },
+  repositoriesPanelMinimized: (() => {
+    const saved = localStorage.getItem('repositoriesPanelMinimized')
+    return saved ? JSON.parse(saved) : false
+  })(),
 }
 
 // Optimized reducer with early returns and React 19 patterns
@@ -79,6 +84,9 @@ function appReducer(state, action) {
       }
     }
     
+    case ACTIONS.SET_REPOSITORIES_PANEL_MINIMIZED:
+      return state.repositoriesPanelMinimized === payload ? state : { ...state, repositoriesPanelMinimized: payload }
+    
     default:
       return state
   }
@@ -117,6 +125,11 @@ export function AppProvider({ children }) {
 
     setColumnWidth: (type, width) => {
       dispatch({ type: ACTIONS.SET_COLUMN_WIDTH, payload: { type, width } })
+    },
+
+    setRepositoriesPanelMinimized: (minimized) => {
+      dispatch({ type: ACTIONS.SET_REPOSITORIES_PANEL_MINIMIZED, payload: minimized })
+      localStorage.setItem('repositoriesPanelMinimized', JSON.stringify(minimized))
     },
 
     // React 19: Batch multiple actions

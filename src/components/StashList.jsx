@@ -42,7 +42,8 @@ const StashList = ({ repository, stashes }) => {
     selectedRepository,
     selectedStash,
     setRepositoryStashes,
-    batchUpdate
+    batchUpdate,
+    repositoriesPanelMinimized,
   } = use(AppContext)
 
   const repoSelected = selectedRepository?.id === repository.id
@@ -155,6 +156,7 @@ const StashList = ({ repository, stashes }) => {
           repository={repository}
           operations={stashOps}
           isLast={index === processedStashes.length - 1}
+          isMinimized={repositoriesPanelMinimized}
         />
       ))}
     </div>
@@ -174,7 +176,7 @@ const EmptyState = ({ repository }) => (
   </div>
 )
 
-const StashItem = ({ stash, repository, operations, isLast }) => {
+const StashItem = ({ stash, repository, operations, isLast, isMinimized }) => {
   const handleSelect = useCallback(() => operations.select(stash.index), [operations, stash.index])
   const handleApply = useCallback((e) => {
     e.stopPropagation()
@@ -189,26 +191,37 @@ const StashItem = ({ stash, repository, operations, isLast }) => {
   return (
     <div 
       className={classNames(
-        'flex items-center gap-2 ml-5 py-1 pr-2 group/stash-item overflow-hidden',
+        'group/stash-item',
+        'flex items-center',
+        'gap-2 py-1 overflow-hidden',
         stash.isSelected && 'bg-hover',
+        isMinimized ? '' : 'pr-2 ml-5',
       )}
     >
-      <div>{isLast ? '└─' : '├─'}</div>
+      {!isMinimized && (
+        <div>{isLast ? '└─' : '├─'}</div>
+      )}
+
       <button
-        className="truncate cursor-pointer"
+        className={classNames(
+          'truncate cursor-pointer',
+          isMinimized ? 'grow' : '',
+        )}
         type="button"
         onClick={handleSelect}
         data-id={stash.dataId}
       >
-        {stash.index}: {stash.message}
+        {isMinimized ? `${stash.index}` : `${stash.index}: ${stash.message}`}
       </button>
 
-      <StashActions 
-        repository={repository}
-        stash={stash}
-        onApply={handleApply}
-        onDrop={handleDrop}
-      />
+      {!isMinimized && (
+        <StashActions 
+          repository={repository}
+          stash={stash}
+          onApply={handleApply}
+          onDrop={handleDrop}
+        />
+      )}
     </div>
   )
 }

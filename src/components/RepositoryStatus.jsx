@@ -64,7 +64,7 @@ const useRepositoryStatus = (repository) => {
   return { status, isLoading, error, loadStatus, stashChanges }
 }
 
-const RepositoryStatus = ({ repository }) => {
+const RepositoryStatus = ({ repository, isMinimized }) => {
   const { status, isLoading, error, loadStatus, stashChanges } = useRepositoryStatus(repository)
 
   const changedFiles = useMemo(() => {
@@ -87,6 +87,10 @@ const RepositoryStatus = ({ repository }) => {
       )
       .filter(Boolean) // Remove any null/undefined entries
   }, [status])
+
+  if (isMinimized) {
+    return null
+  }
 
   if (!repository) {
     return <div className="p-4 text-center text-gray-500">No repository selected</div>
