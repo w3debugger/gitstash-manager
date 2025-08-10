@@ -229,6 +229,7 @@ ipcMain.handle('get-stash-content', async (event, repoPath, index) => {
 
 ipcMain.handle('get-stash-files', async (event, repoPath, index) => {
   try {
+    logger.log('get-stash-files', repoPath, index);
     logger.log(`🔍 Getting files for stash@{${index}} in ${repoPath}`);
     const git = simpleGit(repoPath);
     

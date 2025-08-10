@@ -86,14 +86,14 @@ const StashDetailsView = () => {
       return
     }
 
-    setLoading(true)
-    
-    if (selectedFile) {
-      await contentOps.loadFile()
-    } else {
-      await contentOps.loadStash()
+    // Only load content when a file is selected
+    if (!selectedFile) {
+      setContent('')
+      return
     }
-    
+
+    setLoading(true)
+    await contentOps.loadFile()
     setLoading(false)
   }, [selectedRepository, selectedStash, selectedFile, contentOps])
 
@@ -101,6 +101,12 @@ const StashDetailsView = () => {
   const shouldShow = useMemo(() => 
     selectedRepository && selectedStash !== null, 
     [selectedRepository, selectedStash]
+  )
+
+  // Only show content when a file is selected
+  const shouldShowContent = useMemo(() => 
+    shouldShow && selectedFile !== null,
+    [shouldShow, selectedFile]
   )
 
   useEffect(() => {
@@ -114,7 +120,17 @@ const StashDetailsView = () => {
       data-id="stash-details-view"
       className="flex-1 m-0 bg-surface flex flex-col h-full overflow-hidden"
     >
-      <ContentDisplay loading={loading} content={content} />
+      {shouldShowContent ? (
+        <ContentDisplay loading={loading} content={content} />
+      ) : (
+        <div className="flex-1 flex items-center justify-center text-on-surface-variant">
+          <div className="text-center">
+            <div className="text-4xl mb-4">📁</div>
+            <div className="text-lg font-medium mb-2">No File Selected</div>
+            <div className="text-sm">Select a file from the left panel to view its changes</div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

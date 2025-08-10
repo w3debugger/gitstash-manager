@@ -51,8 +51,8 @@ const StashList = ({ repository, stashes }) => {
     select(index) {
       batchUpdate([
         { type: 'SET_SELECTED_REPOSITORY', payload: repository },
-        { type: 'SET_SELECTED_STASH', payload: index },
-        { type: 'SET_SELECTED_FILE', payload: null }
+        { type: 'SET_SELECTED_STASH', payload: index }
+        // Don't automatically clear selected file - let user choose when to view file vs stash
       ])
     },
 
