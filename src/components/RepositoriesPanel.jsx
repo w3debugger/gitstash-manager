@@ -196,7 +196,7 @@ const RepositoryHeader = ({ repository, operations, isMinimized }) => {
         onClick={handleClick}
         type="button"
       >
-        <RepositoryIcon repository={repository} isMinimized={isMinimized} />
+        <RepositoryIcon repository={repository} />
         {!isMinimized && <span className="truncate">{repository.name}</span>}
         
         {isMinimized && (
@@ -233,22 +233,13 @@ const RepositoryHeader = ({ repository, operations, isMinimized }) => {
   )
 }
 
-const RepositoryIcon = ({ repository, isMinimized }) => {
+const RepositoryIcon = ({ repository }) => {
   const [firstCharacter, secondCharacter] = repository.name.split('-') || ['', '']
 
   return (
-    <div className="relative">
-      <span className="flex items-center justify-center gap-1 bg-primary-text rounded-md p-1 size-8 shrink-0 border border-border">
-        {firstCharacter?.toUpperCase().slice(0, 1)}{secondCharacter?.toUpperCase().slice(0, 1)}
-      </span>
-      
-      {/* Stash count badge for minimized view */}
-      {isMinimized && repository.stashes && repository.stashes.length > 0 && (
-        <div className="absolute -top-1 -right-1 bg-primary text-on-primary text-xs rounded-full size-5 flex items-center justify-center font-medium">
-          {repository.stashes.length}
-        </div>
-      )}
-    </div>
+    <span className="flex items-center justify-center gap-1 bg-primary-text rounded-md p-1 size-8 shrink-0 border border-border">
+      {firstCharacter?.toUpperCase().slice(0, 1)}{secondCharacter?.toUpperCase().slice(0, 1)}
+    </span>
   )
 }
 
