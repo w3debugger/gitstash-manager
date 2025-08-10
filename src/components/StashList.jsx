@@ -220,7 +220,7 @@ const StashActions = ({ repository, stash, onApply, onDrop }) => (
       onClick={onApply}
       data-id={`apply-stash-btn-${repository.id}-${stash.index}`}
       type="button"
-      className="text-green-500"
+      className="font-bold text-on-success"
     >
       APPLY
     </button>
@@ -229,7 +229,7 @@ const StashActions = ({ repository, stash, onApply, onDrop }) => (
       onClick={onDrop}
       data-id={`drop-stash-btn-${repository.id}-${stash.index}`}
       type="button"
-      className="font-bold text-red-500"
+      className="font-bold text-on-error"
     >
       DROP
     </button>

@@ -9,41 +9,51 @@
   
   /* Surface colors */
   --color-surface: #ffffff;
-  --color-surface-variant: #f5f5f5;
+  --color-surface-variant: #f8f9fa;
+  --color-surface-variant-low: #fafbfc;
   --color-on-surface: #000000;
-  --color-on-surface-variant: #6b7280;
+  --color-on-surface-variant: #4a5568;
   
-  /* Diff colors */
-  --color-diff-added: #317D43;
-  --color-diff-removed: #C74646;
+  /* Diff colors - very light for backgrounds */
+  --color-success: #e6ffe8;
+  --color-success-variant: #004526;
+  --color-on-success: #004526;
+  --color-error: #ffeeec;
+  --color-error-variant: #C80815;
+  --color-on-error: #C80815;
   
   /* Interactive states */
-  --color-hover: #f3f4f6;
-  --color-active: #e5e7eb;
-  --color-border: #e5e7eb;
-  --color-border-variant: #d1d5db;
+  --color-hover: #f1f3f4;
+  --color-active: #e8eaed;
+  --color-border: #e1e5e9;
+  --color-border-variant: #dadce0;
 }
 
 /* Manual dark mode override */
 [data-theme="dark"] {
   --color-primary: #ffffff;
   --color-on-primary: #000000;
-  --color-standard: #000000;
+  --color-standard: #0d1117;
   --color-on-standard: #ffffff;
   
-  --color-surface: #000000;
-  --color-surface-variant: #1f2937;
+  --color-surface: #0d1117;
+  --color-surface-variant: #161b22;
+  --color-surface-variant-low: #21262d;
   --color-on-surface: #ffffff;
-  --color-on-surface-variant: #9ca3af;
+  --color-on-surface-variant: #8b949e;
   
-  /* Diff colors - slightly adjusted for dark mode */
-  --color-diff-added: #4ade80;
-  --color-diff-removed: #f87171;
+  /* Diff colors - subtle for dark backgrounds */
+  --color-success: #031004;
+  --color-success-variant: #004526;
+  --color-on-success: #3cff62;
+  --color-error: #2c0000;
+  --color-error-variant: #C80815;
+  --color-on-error: #ff4343;
   
-  --color-hover: #374151;
-  --color-active: #4b5563;
-  --color-border: #374151;
-  --color-border-variant: #4b5563;
+  --color-hover: #21262d;
+  --color-active: #30363d;
+  --color-border: #30363d;
+  --color-border-variant: #21262d;
 }
 
 body {

@@ -333,8 +333,65 @@ ipcMain.handle('get-stash-file-content', async (event, repoPath, index, filename
     
     // Method 1: Try direct diff approach
     try {
-      const content = await git.raw(['diff', `stash@{${index}}^`, `stash@{${index}}`, '--', filename]);
-      if (content && content.trim()) {
+      const rawContent = await git.raw(['diff', `stash@{${index}}^`, `stash@{${index}}`, '--', filename]);
+      const content = rawContent
+        .split('\n@@')
+        .slice(1)
+        .map(block => {
+          const [diffHead, ...diffLines] = block.split('\n');
+          const headTitle = `@@${diffHead}`;
+          const m = headTitle.match(/@@ -(\d+)(?:,\d+)? \+(\d+)(?:,\d+)? @@/);
+          if (!m) return null;
+      
+          let oldLine = parseInt(m[1], 10);
+          let newLine = parseInt(m[2], 10);
+      
+          const lines = [];
+          for (const raw of diffLines) {
+            if (!raw) continue;
+            if (raw.startsWith('\\ No newline at end of file')) continue;
+      
+            const ch = raw[0];
+      
+            if (ch === ' ') {
+              lines.push({
+                line: raw,
+                removedIndex: oldLine,
+                addedIndex: newLine,
+              });
+              oldLine++;
+              newLine++;
+            } else if (ch === '+') {
+              lines.push({
+                line: raw,
+                added: true,
+                removedIndex: null,
+                addedIndex: newLine,
+              });
+              newLine++;
+            } else if (ch === '-') {
+              lines.push({
+                line: raw,
+                removed: true,
+                removedIndex: oldLine,
+                addedIndex: null,
+              });
+              oldLine++;
+            }
+          }
+      
+          return {
+            head: {
+              title: headTitle.trim(),
+              removed: parseInt(m[1], 10),
+              added: parseInt(m[2], 10),
+            },
+            lines,
+          };
+        })
+        .filter(Boolean);
+
+      if (content) {
         logger.log('Method 1 (diff) succeeded');
         return { success: true, content };
       }

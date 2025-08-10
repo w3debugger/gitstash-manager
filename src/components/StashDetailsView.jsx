@@ -1,4 +1,5 @@
-import { use, useState, useEffect, useMemo, useCallback } from 'react'
+import { use, useState, useEffect, useMemo, useCallback, Fragment } from 'react'
+import classNames from 'classnames'
 import { AppContext } from '../context/AppContext'
 
 const StashDetailsView = () => {
@@ -139,7 +140,7 @@ const StashDetailsView = () => {
 const ContentDisplay = ({ loading, content }) => (
   <div
     data-id="stash-content-display"
-    className="flex-1 overflow-y-auto bg-surface p-5 leading-relaxed"
+    className="flex-1 overflow-y-auto bg-surface leading-relaxed relative"
   >
     {loading ? (
       <LoadingState />
@@ -158,30 +159,62 @@ const LoadingState = () => (
   </div>
 )
 
+const getLineStyle = (line) => {
+  if (line.added) {
+    return 'bg-[var(--color-success)] text-[var(--color-on-success)]'
+  }
+  if (line.removed) {
+    return 'bg-[var(--color-error)] text-[var(--color-on-error)]'
+  }
+  return ''
+}
+
 const ContentText = ({ content }) => {
-  // Split content into lines and process each line
-  const lines = content.split('\n')
-  
+  if (content.length === 0) return null
+
   return (
     <pre 
-      className="whitespace-pre-wrap break-words text-on-surface" 
+      // className="whitespace-pre-wrap break-words text-on-surface" 
       data-id="stash-content-text"
+      className="grid grid-cols-[auto_auto_1fr] items-center"
     >
-      {lines.map((line, index) => {
-        // Determine line type (added, removed, or normal)
-        const isAddedLine = line.startsWith('+')
-        const isRemovedLine = line.startsWith('-')
-        
-        // Style based on line type
-        const lineStyle = isAddedLine ? 'text-[var(--color-diff-added)]' 
-          : isRemovedLine ? 'text-[var(--color-diff-removed)]'
-          : 'text-on-surface'
-          
+      {content.map((cont) => {  
         return (
-          <div key={index} className={`${lineStyle} flex`}>
-            <span className="w-12 text-right pr-4 text-gray-500 select-none">{index + 1}</span>
-            <span>{line}</span>
-          </div>
+          <Fragment key={cont.head.added}>
+            <div className="bg-surface-variant p-2 overflow-hidden col-span-3 sticky top-0 z-10 shadow-lg">
+              <div className="truncate">{cont.head.title}</div>
+            </div>
+
+            {cont.lines.map((line, index) => (
+              <Fragment key={index}>
+                <div
+                  className={classNames(
+                    'text-center py-0.5 px-2',
+                    getLineStyle(line),
+                  )}
+                >
+                  {line.removedIndex || ' '}
+                </div>
+                <div
+                  className={classNames(
+                    'text-center py-0.5 px-2',
+                    getLineStyle(line),
+                  )}
+                >
+                  {line.addedIndex || ' '}
+                </div>
+                <div
+                  className={classNames(
+                    'py-0.5',
+                    'truncate whitespace-pre',
+                    getLineStyle(line),
+                  )}
+                >
+                  {line.line}
+                </div>
+              </Fragment>
+            ))}
+          </Fragment>
         )
       })}
     </pre>
