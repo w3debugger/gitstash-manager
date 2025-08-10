@@ -2,6 +2,41 @@ import { use, useCallback, useMemo } from 'react'
 import classNames from 'classnames'
 import { AppContext } from '../context/AppContext'
 
+const computeNextSelectedStash = ({
+  droppedIndex,
+  prevLength,
+  wasSelected,
+  currentSelectedIndex,
+}) => {
+  const hadItems = prevLength > 0
+  const newLength = Math.max(prevLength - 1, 0)
+  const prevLast = Math.max(prevLength - 1, -1)
+
+  if (!hadItems || newLength === 0) return null
+
+  // If we dropped before the current selection, selection shifts left by 1
+  if (!wasSelected && currentSelectedIndex != null && droppedIndex < currentSelectedIndex) {
+    return Math.max(0, currentSelectedIndex - 1)
+  }
+
+  // If we dropped after the current selection, selection stays as-is
+  if (!wasSelected && currentSelectedIndex != null && droppedIndex > currentSelectedIndex) {
+    return currentSelectedIndex
+  }
+
+  // We dropped the currently selected stash
+  if (wasSelected) {
+    // If we didn't drop the last, select the item that slid into this index
+    if (droppedIndex < prevLast) return droppedIndex
+    // If we dropped the last, select the new last (previous index - 1)
+    return Math.max(0, droppedIndex - 1)
+  }
+
+  // If there was no selection before, pick something sensible:
+  // Prefer the item that slid into the dropped slot (if not last), else new last.
+  return droppedIndex < prevLast ? droppedIndex : Math.max(0, prevLast - 1)
+}
+
 const StashList = ({ repository, stashes }) => {
   const { 
     selectedRepository,
@@ -10,7 +45,8 @@ const StashList = ({ repository, stashes }) => {
     batchUpdate
   } = use(AppContext)
 
-  // Memoized stash operations
+  const repoSelected = selectedRepository?.id === repository.id
+
   const stashOps = useMemo(() => ({
     select(index) {
       batchUpdate([
@@ -28,7 +64,6 @@ const StashList = ({ repository, stashes }) => {
 
       try {
         const { success, message, error } = await window.electronAPI.applyStash(repository.path, index)
-        
         if (success) {
           console.log('Stash applied successfully:', message)
         } else {
@@ -45,49 +80,64 @@ const StashList = ({ repository, stashes }) => {
       )
       if (!confirmed) return
 
+      // Capture current length BEFORE dropping so we can compute next selection correctly
+      const prevLength = Array.isArray(stashes) ? stashes.length : 0
+      const wasSelected = repoSelected && selectedStash === index
+      const currentSelectedIndex = repoSelected ? selectedStash : null
+
       try {
         const { success, message, error } = await window.electronAPI.dropStash(repository.path, index)
-        
-        if (success) {
-          console.log('Stash dropped successfully:', message)
-          
-          // Clear selection if we dropped the selected stash
-          if (selectedRepository?.id === repository.id && selectedStash === index) {
-            batchUpdate([
-              { type: 'SET_SELECTED_STASH', payload: null },
-              { type: 'SET_SELECTED_FILE', payload: null }
-            ])
-          }
-          
-          // Reload stashes
-          const stashResult = await window.electronAPI.getStashes(repository.path)
-          if (stashResult.success) {
-            setRepositoryStashes(repository.id, stashResult.stashes)
-          }
-        } else {
+        if (!success) {
           console.error('Failed to drop stash:', error)
+          return
+        }
+
+        console.log('Stash dropped successfully:', message)
+
+        // Reload stashes (source of truth)
+        const stashResult = await window.electronAPI.getStashes(repository.path)
+        if (!stashResult.success) {
+          console.error('Failed to reload stashes after drop')
+          return
+        }
+
+        setRepositoryStashes(repository.id, stashResult.stashes)
+
+        // Compute and apply the next selection based on your rules
+        if (repoSelected) {
+          const nextIndex = computeNextSelectedStash({
+            droppedIndex: index,
+            prevLength,
+            wasSelected,
+            currentSelectedIndex,
+          })
+
+          batchUpdate([
+            // keep repo selected
+            { type: 'SET_SELECTED_REPOSITORY', payload: repository },
+            { type: 'SET_SELECTED_STASH', payload: nextIndex },
+            { type: 'SET_SELECTED_FILE', payload: null },
+          ])
         }
       } catch (error) {
         console.error('Error dropping stash:', error)
       }
     }
-  }), [repository, selectedRepository?.id, selectedStash, batchUpdate, setRepositoryStashes])
+  }), [repository, repoSelected, selectedStash, stashes, batchUpdate, setRepositoryStashes])
 
-  // Memoized processed stashes
   const processedStashes = useMemo(() => 
     Array.isArray(stashes) 
       ? stashes.map((stash, index) => ({
           ...stash,
           index,
-          isSelected: selectedRepository?.id === repository.id && selectedStash === index,
+          isSelected: repoSelected && selectedStash === index,
           key: `${repository.id}-${index}`,
           dataId: `stash-item-${repository.id}-${index}`
         }))
       : [],
-    [stashes, selectedRepository?.id, repository.id, selectedStash]
+    [stashes, repoSelected, repository.id, selectedStash]
   )
 
-  // Early returns for different states
   if (stashes === 'loading') {
     return <LoadingState repository={repository} />
   }
@@ -111,7 +161,6 @@ const StashList = ({ repository, stashes }) => {
   )
 }
 
-// Extracted components for better performance
 const LoadingState = ({ repository }) => (
   <div className="px-6 py-4" data-id={`stash-list-loading-${repository.id}`}>
     Loading stashes...
