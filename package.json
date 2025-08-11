@@ -101,7 +101,10 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "GitStash Manager"
-    }
+    },
+    "publish": [
+      { "provider": "github", "publishAutoUpdate": false }
+    ]
   },
   "keywords": [
     "git",
