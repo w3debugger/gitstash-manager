@@ -11,6 +11,7 @@
   --color-surface: #ffffff;
   --color-surface-variant: #f8f9fa;
   --color-surface-variant-low: #fafbfc;
+  --color-surface-variant-high: #e7e7e7;
   --color-on-surface: #000000;
   --color-on-surface-variant: #4a5568;
   
@@ -39,6 +40,7 @@
   --color-surface: #0d1117;
   --color-surface-variant: #161b22;
   --color-surface-variant-low: #21262d;
+  --color-surface-variant-high: #21262d;
   --color-on-surface: #ffffff;
   --color-on-surface-variant: #8b949e;
   

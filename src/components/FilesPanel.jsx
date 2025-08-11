@@ -85,7 +85,7 @@ const FilesList = ({ files, onSelectFile }) => (
 )
 
 const FileItem = ({ file, onClick }) => (
-  <div 
+  <button 
     className={classNames(
       'flex items-center gap-3 cursor-pointer hover:bg-hover',
       { 'text-on-surface font-bold': file.isSelected }
@@ -93,18 +93,18 @@ const FileItem = ({ file, onClick }) => (
     onClick={() => onClick(file)}
     data-id={file.dataId}
   >
-    <div className="shrink-0">{file.statusIcon}</div>
-    <div className="grow overflow-hidden flex whitespace-nowrap">
+    <span className="shrink-0">{file.statusIcon}</span>
+    <span className="grow overflow-hidden flex whitespace-nowrap">
       {file.path ? (
         <>
-          <div className="truncate">{file.path}</div>
-          <div>/{file.displayName}</div>
+          <span className="truncate opacity-50">{file.path}</span>
+          <span className="block">/{file.displayName}</span>
         </>
       ) : (
-        <div className="truncate">{file.displayName}</div>
+        <span className="truncate">{file.displayName}</span>
       )}
-    </div>
-  </div>
+    </span>
+  </button>
 )
 
 export default FilesPanel

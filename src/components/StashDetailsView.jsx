@@ -181,7 +181,13 @@ const ContentText = ({ content }) => {
       {content.map((cont) => {  
         return (
           <Fragment key={cont.head.added}>
-            <div className="bg-surface-variant p-2 overflow-hidden col-span-3 sticky top-0 z-10 shadow-lg">
+            <div
+              className={classNames(
+                'bg-surface-variant-high',
+                'p-2 overflow-hidden col-span-3',
+                'sticky top-0 z-10',
+              )}
+            >
               <div className="truncate">{cont.head.title}</div>
             </div>
 
