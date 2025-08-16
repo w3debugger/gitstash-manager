@@ -460,6 +460,18 @@ footer {
     gap: var(--space-sm);
   }
 
+  .hero h1 {
+    font-size: clamp(32px, 8vw, 56px);
+  }
+
+  .hero-links {
+    flex-direction: column;
+  }
+
+  h2 {
+    font-size: clamp(20px, 4vw, 32px);
+  }
+
   section {
     padding: var(--space-lg) 0;
   }
