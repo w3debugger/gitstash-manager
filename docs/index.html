@@ -8,7 +8,11 @@
     <meta name="keywords" content="git stash, git manager, version control, developer tools, git gui, stash management">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@500&display=swap" rel="stylesheet">
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:wght@500&display=swap" rel="stylesheet">
+    </noscript>
     <link rel="stylesheet" href="styles.css" type="text/css">
     <meta name="google-site-verification" content="m8EHHc_m8_FUcIvGcHId61wsISvgAZFHz1x-jRIw8qo" />
   </head>
@@ -341,7 +345,8 @@
     </footer>
     <!-- Theme Switcher -->
     <div class="theme-switcher">
-      <select id="theme-toggle" class="theme-toggle">
+      <label for="theme-toggle" class="visually-hidden">Theme</label>
+      <select id="theme-toggle" class="theme-toggle" aria-label="Theme">
         <optgroup label="Light">
           <option value="light">Light</option>
           <option value="light-green">Light Green</option>
@@ -355,7 +360,8 @@
       </select>
     </div>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      // Defer theme initialization to improve page load performance
+      window.addEventListener('load', () => {
         const body = document.body;
         const themeSelect = document.querySelector('.theme-toggle');
       
@@ -373,14 +379,23 @@
       });
     </script>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5B0WBE92EG"></script>
+    <!-- Google tag (gtag.js) - Optimized loading -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-5B0WBE92EG');
+      // Defer Google Analytics loading to improve page performance
+      window.addEventListener('load', function() {
+        // Load gtag script dynamically after page load
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5B0WBE92EG';
+        document.head.appendChild(script);
+        
+        script.onload = function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-5B0WBE92EG');
+        };
+      });
     </script>
   </body>
 </html>
