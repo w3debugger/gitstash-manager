@@ -9,7 +9,7 @@
   --bg-2: #f8f9fa;
   --bg-3: #e9ecef;
   --text: #000;
-  --text-dim: #6c757d;
+  --text-dim: #000;
   --border: #dee2e6;
   --accent: rgba(45, 90, 39, 0.2);
 }
@@ -20,7 +20,7 @@
   --bg-2: #1a1a1a;
   --bg-3: #2a2a2a;
   --text: #fff;
-  --text-dim: #888;
+  --text-dim: #fff;
   --border: #333;
   --accent: rgba(0, 255, 65, 0.2);
 }
