@@ -250,7 +250,7 @@ nav a:focus {
 .hero {
   padding: var(--space-xl) 0;
   text-align: center;
-  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-2) 100%);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-3) 100%);
 }
 
 .hero h1 {
